@@ -1,30 +1,8 @@
+import { createMagicToken, getUserByEmail } from "@/functions/signup";
 import { createAdminClient } from "@/lib/server/appwrite";
 import { NextRequest } from "next/server";
 import { Account, Databases, ID, Query } from "node-appwrite";
 
-// checking user exist or not
-const getUserByEmail = async(email: string) => {
-    const {database} = await createAdminClient();
-    const result = await database.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_COLLECTION!,
-        [Query.equal("email", [email])]
-    );
-
-    return result.total > 0 ? result.documents[0] : null;
-}
-
-
-// send OTP for verification
-const sendEmailOTP = async(email: string) => {
-    try {
-        const {account} = await createAdminClient();
-        const session = await account.createEmailToken(ID.unique(), email);
-        return session.userId;
-    } catch (error) {
-        throw error;
-    }
-}
 
 export async function POST(req:NextRequest, res: NextRequest){
     try {
@@ -45,9 +23,10 @@ export async function POST(req:NextRequest, res: NextRequest){
             });
         }
         
-        const accountId = await sendEmailOTP(email);
-        if(!accountId){
-            return new Response(JSON.stringify({message: "Failed to send an OTP", type: false}), {
+        const userId = await createMagicToken(email);
+        console.log("userId", userId);
+        if(!userId){
+            return new Response(JSON.stringify({message: "Failed to send Link", type: false}), {
                 status: 404
             });
         }
@@ -66,7 +45,7 @@ export async function POST(req:NextRequest, res: NextRequest){
             }
         )
         
-        return new Response(JSON.stringify({message: "Account created successfully", type: true}), {
+        return new Response(JSON.stringify({message: "Account created successfully", type: true, data: userId}), {
             status: 200
         });
 

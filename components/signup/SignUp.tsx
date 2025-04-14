@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import {z} from "zod"
 import {useForm} from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,6 +15,8 @@ interface authProp{
 
 const SignUp: React.FC<authProp> = ({type}) => {
 
+    const [accountID, setAccountID] = useState<string>("");
+
     const formSchema = z.object({
         firstname: z.string().trim().min(1, {message: "Required"}).max(50),
         lastname: z.string().trim().min(1, {message: "Required"}).max(50),
@@ -22,7 +24,10 @@ const SignUp: React.FC<authProp> = ({type}) => {
         contact: z.string().regex(/^\+?[1-9]\d{1,14}$/, {message: "Invalid contact number"}),
         password: z.string().trim().min(5, {message: "Password too short"}).max(20),
         confirmpassword: z.string().trim().min(5, {message: "Password too short"}).max(20)
-    })
+    }).refine((data) => data.password === data.confirmpassword, {
+        message: "Passwords don't match",
+        path: ["confirmpassword"]
+    });
 
     type formValues = z.infer<typeof formSchema>;
 
@@ -39,12 +44,14 @@ const SignUp: React.FC<authProp> = ({type}) => {
     })
 
     const onsubmit = async (values: formValues) => {
-        console.log('firstname', values)
         // signWithEmail(values);
-        await axios.post("http://localhost:3000/api/signup", values, {
+        const data = await axios.post("http://localhost:3000/api/signup", values, {
             headers: {
                 'X-Appwrite-Project': process.env.NEXT_PUBLIC_APPWRITE_PROJECT
             }
+        }).then((resp) => resp.data).then((response) => {
+            console.log('response', response)
+            setAccountID(response.data);
         })
     }
 
