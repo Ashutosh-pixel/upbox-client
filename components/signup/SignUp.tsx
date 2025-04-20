@@ -51,7 +51,6 @@ const SignUp: React.FC<authProp> = ({type}) => {
             }
         }).then((resp) => resp.data).then((response) => {
             console.log('response', response)
-            setAccountID(response.data);
         })
     }
 
