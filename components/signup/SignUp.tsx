@@ -1,12 +1,12 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import {z} from "zod"
 import {useForm} from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import axios from 'axios'
+import axios from "axios";
+import {useRouter} from "next/navigation";
 
 
 interface authProp{
@@ -14,44 +14,38 @@ interface authProp{
 }
 
 const SignUp: React.FC<authProp> = ({type}) => {
-
-    const [accountID, setAccountID] = useState<string>("");
+    const router = useRouter();
 
     const formSchema = z.object({
-        firstname: z.string().trim().min(1, {message: "Required"}).max(50),
-        lastname: z.string().trim().min(1, {message: "Required"}).max(50),
+        name: z.string().trim().min(1, {message: "Name is required."}),
         email: z.string().email({message: "Invalid Email"}),
-        contact: z.string().regex(/^\+?[1-9]\d{1,14}$/, {message: "Invalid contact number"}),
         password: z.string().trim().min(5, {message: "Password too short"}).max(20),
-        confirmpassword: z.string().trim().min(5, {message: "Password too short"}).max(20)
-    }).refine((data) => data.password === data.confirmpassword, {
-        message: "Passwords don't match",
-        path: ["confirmpassword"]
-    });
+    })
 
     type formValues = z.infer<typeof formSchema>;
 
     const form = useForm<formValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            firstname: "",
-            lastname: "",
+            name: "",
             email: "",
-            contact: "",
             password: "",
-            confirmpassword: ""
         }
     })
 
     const onsubmit = async (values: formValues) => {
         // signWithEmail(values);
-        const data = await axios.post("http://localhost:3000/api/signup", values, {
-            headers: {
-                'X-Appwrite-Project': process.env.NEXT_PUBLIC_APPWRITE_PROJECT
-            }
-        }).then((resp) => resp.data).then((response) => {
-            console.log('response', response)
-        })
+        try {
+            await axios.post("http://localhost:3000/api/auth/registration/", values).then((response) => {
+                console.log("response", response)
+                if(response.data.userId){
+                    router.push('/');
+                }
+            })
+        }
+        catch (error){
+            console.log('Error during submission', error);
+        }
     }
 
 
@@ -64,24 +58,10 @@ const SignUp: React.FC<authProp> = ({type}) => {
         <form onSubmit={form.handleSubmit(onsubmit)} className='auth-form'>
             <FormField 
             control={form.control}
-            name="firstname"
+            name="name"
             render={({field}) => (
                 <FormItem>
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                        <input {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                    {/* <FormDescription></FormDescription> */}
-                </FormItem>
-            )}
-            />
-            <FormField 
-            control={form.control}
-            name="lastname"
-            render={({field}) => (
-                <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                         <input {...field}/>
                     </FormControl>
@@ -106,20 +86,6 @@ const SignUp: React.FC<authProp> = ({type}) => {
             />
             <FormField 
             control={form.control}
-            name="contact"
-            render={({field}) => (
-                <FormItem>
-                    <FormLabel>Contact No.</FormLabel>
-                    <FormControl>
-                        <input {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                    {/* <FormDescription></FormDescription> */}
-                </FormItem>
-            )}
-            />
-            <FormField 
-            control={form.control}
             name="password"
             render={({field}) => (
                 <FormItem>
@@ -132,23 +98,9 @@ const SignUp: React.FC<authProp> = ({type}) => {
                 </FormItem>
             )}
             />
-            <FormField 
-            control={form.control}
-            name="confirmpassword"
-            render={({field}) => (
-                <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                        <input {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                    {/* <FormDescription></FormDescription> */}
-                </FormItem>
-            )}
-            />
             
             <Button type="submit">{type}</Button>
-            <div>{type && <div><div>Already have an Account</div><Link href='/signin'>Sign In</Link></div>}</div>
+            <div>{type && <div><div>Already have an Account</div><a href='/signin'>Sign In</a></div>}</div>
         </form>
     </Form>
     </div>
