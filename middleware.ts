@@ -13,6 +13,10 @@ export async function middleware(req: NextRequest) {
 
     try {
         await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET));
+        const currentPath = req.nextUrl.pathname;
+        if(currentPath === "/signup" || currentPath === "/signin"){
+            return  NextResponse.redirect(new URL('/', req.url));
+        }
         return NextResponse.next();
     } catch {
         return NextResponse.redirect(new URL('/signin', req.url));
@@ -20,5 +24,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/", "/signup"], // Matches all routes
+    matcher: ["/", "/signin", "/signup"], // Matches all routes
 };
