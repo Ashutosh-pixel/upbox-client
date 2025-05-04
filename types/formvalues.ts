@@ -1,9 +1,5 @@
-export interface Formvalues
+export interface Loginvalues
 {
-    firstname: string;
-    lastname: string;
-    email: string;
-    contact: string;
-    password: string;
-    confirmpassword: string;
+    email?: string,
+    password?: string
 }

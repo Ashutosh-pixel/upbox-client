@@ -4,8 +4,6 @@ import mongoose from "mongoose";
 import bcrypt from 'bcryptjs';
 import {UUID} from "bson";
 import User from "@/models/User";
-import jwt from "jsonwebtoken";
-import * as process from "node:process";
 import {NextResponse} from "next/server";
 
 export const POST = async (req: NextApiRequest) => {
@@ -39,22 +37,8 @@ export const POST = async (req: NextApiRequest) => {
             password: hashedPassword
         })
 
-        const token = jwt.sign({userId: result.userId}, process.env.JWT_SECRET!, {
-            expiresIn: '7d'
-        });
 
-
-        const response = NextResponse.json({message: "user created",  userId: result.userId}, {status: 201});
-
-        response.cookies.set('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: 'strict',
-            maxAge: 7*24*60*60,
-            path: '/'
-        });
-
-        return response;
+        return NextResponse.json({message: "user created",  userId: result.userId}, {status: 201});
     }
     catch (error) {
         console.log("signup error", error);

@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 import {connectDB} from "@/lib/database/dbConnect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import * as process from "node:process";
 
 export const POST = async (req: NextRequest) => {
     try {
@@ -18,32 +16,20 @@ export const POST = async (req: NextRequest) => {
         }
 
         const existingUser = await User.findOne(filter);
-
+        // console.log('existing', existingUser)
 
         if(existingUser){
             const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
+            console.log('isPasswordCorrect', isPasswordCorrect)
             if(isPasswordCorrect){
-                const response = NextResponse.json({message: "Password match!", userId: existingUser.userId}, {status: 200});
-                const token = jwt.sign({userId: existingUser.userId}, process.env.JWT_SECRET!, {
-                    expiresIn: '7d'
-                });
-
-                response.cookies.set('token', token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: 'strict',
-                    maxAge: 7*24*60*60,
-                    path: '/'
-                })
-
-                return response;
+                return NextResponse.json({message: "Password match!", user: {id: existingUser._id, email: existingUser.email, name: existingUser.name}}, {status: 200});
             }
             else{
-                return NextResponse.json({message: "Password do not match", userId: null}, {status: 200});
+                return NextResponse.json({message: "Password do not match"}, {status: 401});
             }
         }
 
-        return NextResponse.json({message: "Account not found", userId: null}, {status: 200});
+        return NextResponse.json({message: "Account not found"}, {status: 401});
     }
     catch(error){
         console.log("login error", error);

@@ -5,7 +5,8 @@ import {useForm} from "react-hook-form"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
-import axios from "axios";
+import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 
 interface authProp{
     type: string
@@ -13,6 +14,7 @@ interface authProp{
 
 
 const Login: React.FC<authProp> = ({type}) => {
+    const router = useRouter();
 
     const formSchema = z.object({
         email: z.string().email({message: "Invalid Email"}),
@@ -30,7 +32,19 @@ const Login: React.FC<authProp> = ({type}) => {
     })
 
     const onsubmit = async (values: formValues) => {
-        const data = await axios.post('http://localhost:3000/api/auth/login/', values);
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: values.email,
+            password: values.password
+        })
+        console.log("res", res);
+
+        if(res?.ok){
+            router.push('/');
+        }
+        else{
+            console.log('Invalid email or password');
+        }
     }
 
     return (

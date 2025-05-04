@@ -6,7 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="1ab32989-f272-4e3c-993e-a68eba15fb4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/[...nextauth]/options.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/[...nextauth]/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/login/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/registration/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/registration/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/signin/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/signin/Login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/formvalues.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/formvalues.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,40 +47,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
-    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ashu/Documents/Projects/upbox&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/Ashu/AppData/Roaming/JetBrains/WebStorm2025.1/node/versions/22.15.0/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Ashu\\Documents\\Projects\\upbox\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "js.debugger.nextJs.config.created.client": "true",
+    "js.debugger.nextJs.config.created.server": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ashu/Documents/Projects/upbox",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "C:/Users/Ashu/AppData/Roaming/JetBrains/WebStorm2025.1/node/versions/22.15.0/node",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "ts.external.directory.path": "C:\\Users\\Ashu\\Documents\\Projects\\upbox\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mongo&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mongo"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ashu\Documents\Projects\upbox\lib" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\test" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox\app" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\(root)" />
-      <recent name="C:\Users\ashus\OneDrive\Documents\Project\upbox" />
     </key>
   </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
@@ -139,6 +145,13 @@
       <workItem from="1745893209888" duration="2432000" />
       <workItem from="1745896743899" duration="901000" />
       <workItem from="1745897753408" duration="1735000" />
+      <workItem from="1745899527542" duration="83000" />
+      <workItem from="1745943754540" duration="509000" />
+      <workItem from="1745944277506" duration="3775000" />
+      <workItem from="1746117255522" duration="784000" />
+      <workItem from="1746156056716" duration="2849000" />
+      <workItem from="1746293785727" duration="1914000" />
+      <workItem from="1746332794828" duration="15294000" />
     </task>
     <servers />
   </component>
