@@ -5,25 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ab32989-f272-4e3c-993e-a68eba15fb4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gbrowsers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gbrowsers.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/[...nextauth]/options.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/[...nextauth]/route.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/login/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/login/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/registration/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/registration/route.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/signin/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/signin/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/types/formvalues.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/formvalues.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/signup/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/signup/SignUp.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/authOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/authOptions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/database/dbConnect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/database/dbConnect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="EndpointsView">
+    <option name="showSidePanel" value="false" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="HTTP Request" />
       </list>
     </option>
   </component>
@@ -32,6 +36,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/app/middleware.ts" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="HttpClientSelectedEnvironments">
+    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" environment="test" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
@@ -49,6 +56,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "HTTP Request.api-test | #2.executor": "Run",
+    "HTTP Request.api-test | GET request to example server.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -64,7 +73,8 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_interpreter_path": "C:/Users/Ashu/AppData/Roaming/JetBrains/WebStorm2025.1/node/versions/22.15.0/node",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor",
+    "settings.editor.selected.configurable": "swagger",
+    "settings.editor.splitter.proportion": "0.2160596",
     "ts.external.directory.path": "C:\\Users\\Ashu\\Documents\\Projects\\upbox\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   },
@@ -76,14 +86,20 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\api" />
+      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\api\auth" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox\lib" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox" />
       <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\test" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\(root)" />
     </key>
   </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="api-test | GET request to example server" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-test.http" executionIdentifier="GET request to example server" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="api-test | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-test.http" executionIdentifier="#2" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
@@ -97,6 +113,12 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="HTTP Request.api-test | #2" />
+        <item itemvalue="HTTP Request.api-test | GET request to example server" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -151,7 +173,16 @@
       <workItem from="1746117255522" duration="784000" />
       <workItem from="1746156056716" duration="2849000" />
       <workItem from="1746293785727" duration="1914000" />
-      <workItem from="1746332794828" duration="15294000" />
+      <workItem from="1746332794828" duration="16523000" />
+      <workItem from="1746421060495" duration="2155000" />
+      <workItem from="1746460446025" duration="2455000" />
+      <workItem from="1746550729467" duration="2599000" />
+      <workItem from="1746584267823" duration="20000" />
+      <workItem from="1746584301467" duration="6541000" />
+      <workItem from="1746634468051" duration="2378000" />
+      <workItem from="1746637725938" duration="6041000" />
+      <workItem from="1746679748039" duration="4658000" />
+      <workItem from="1746700498368" duration="10451000" />
     </task>
     <servers />
   </component>

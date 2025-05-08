@@ -7,6 +7,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Button } from '@/components/ui/button'
 import axios from "axios";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
+import {assets} from "@/lib/importedFiles";
+import {signIn} from "next-auth/react";
 
 
 interface authProp{
@@ -101,6 +104,9 @@ const SignUp: React.FC<authProp> = ({type}) => {
             
             <Button type="submit">{type}</Button>
             <div>{type && <div><div>Already have an Account</div><a href='/signin'>Sign In</a></div>}</div>
+            <div><Image src={assets.googlelogo} alt='googlelogo' width={25} height={25}></Image>
+                <button onClick={() => signIn('google')}>Sign up with Google</button>
+            </div>
         </form>
     </Form>
     </div>

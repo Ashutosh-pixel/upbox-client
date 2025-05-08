@@ -34,6 +34,22 @@
     {
       "name": "mongoose query findone at DuckDuckGo",
       "url": "https://duckduckgo.com/?t=h_&q=mongoose+query+findone&ia=web"
+    },
+    {
+      "name": "nextauth at DuckDuckGo",
+      "url": "https://duckduckgo.com/?t=h_&q=nextauth"
+    },
+    {
+      "name": "nextauth at DuckDuckGo",
+      "url": "https://duckduckgo.com/?t=h_&q=nextauth&ia=web"
+    },
+    {
+      "name": "App Router: Adding Authentication | Next.js",
+      "url": "https://nextjs.org/learn/dashboard-app/adding-authentication"
+    },
+    {
+      "name": "Client API | NextAuth.js",
+      "url": "https://next-auth.js.org/getting-started/client"
     }
   ]
 }]]></component>
