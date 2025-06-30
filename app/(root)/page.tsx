@@ -1,11 +1,11 @@
 import Home from "@/components/home/Home";
 
 const page = () => {
-   return (
+  return (
        <div>
-           <Home/>
+           {/* <Home/> */}
        </div>
-   )
+  )
 }
 
 export default  page;

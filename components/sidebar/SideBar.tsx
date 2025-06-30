@@ -4,7 +4,7 @@ import SideBarList from "@/components/sidebar/SideBarList";
 
 const  SideBar = () => {
     return (
-        <div className=" sidebar-header flex w-3xs z-10 shadow-lg flex-col overflow-auto">
+        <div className=" sidebar-header flex w-56 z-10 h-screen top-0 left-0 shadow-xl flex-col fixed overflow-y-auto bg-white">
             <hr/>
            <SideBarProfileBody/>
             <hr className="mt-10"/>

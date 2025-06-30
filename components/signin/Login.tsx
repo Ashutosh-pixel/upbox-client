@@ -1,14 +1,17 @@
 "use client"
 import React from "react";
-import {z} from "zod";
+import {string, z} from "zod";
 import {useForm} from "react-hook-form"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
-import {signIn} from "next-auth/react";
+import {signIn, useSession} from "next-auth/react";
 import Image from "next/image";
 import {assets} from "@/lib/importedFiles";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/lib/redux/store";
+import {setUser} from "@/lib/redux/slice/userSlice";
 
 interface authProp{
     type: string
@@ -17,6 +20,10 @@ interface authProp{
 
 const Login: React.FC<authProp> = ({type}) => {
     const router = useRouter();
+    const user = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch<AppDispatch>();
+    const {data: session, status} = useSession();
+
 
     const formSchema = z.object({
         email: z.string().email({message: "Invalid Email"}),
@@ -39,14 +46,19 @@ const Login: React.FC<authProp> = ({type}) => {
             email: values.email,
             password: values.password
         })
-        console.log("res", res);
 
-        if(res?.ok){
-            router.push('/');
+        if(status === "authenticated" && session.provider === "credentials"){
+            console.log('first', session)
+            setUser(session.user)
         }
-        else{
-            console.log('Invalid email or password');
-        }
+        
+        //
+        // if(res?.ok){
+        //     router.push('/');
+        // }
+        // else{
+        //     console.log('Invalid email or password');
+        // }
     }
 
     return (

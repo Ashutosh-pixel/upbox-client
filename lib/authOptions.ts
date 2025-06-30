@@ -66,6 +66,23 @@ export const authOptions: NextAuthOptions = {
             console.log("baseUrl", baseUrl)
             return `${baseUrl}`
         },
+        async jwt({token, user, account}){
+            if(user){
+                token.id = user.id;
+            }
+            if(account){
+                token.provider = account.provider;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                (session.user as { id?: string }).id = token.sub || token.id;
+            }
+            
+            (session as any).provider = token.provider;
+            return session;
+        },
     },
     secret: process.env.NEXTAUTH_SECRET
 }

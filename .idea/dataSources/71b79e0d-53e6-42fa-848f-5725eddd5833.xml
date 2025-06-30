@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="upbox@cluster0.wij4x.mongodb.net">
+  <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.53">
+    <root id="1">
+      <ServerVersion>8.0.10</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="admin"/>
+    <schema id="3" parent="1" name="local"/>
+    <schema id="4" parent="1" name="upbox">
+      <Current>1</Current>
+      <LastIntrospectionLocalTimestamp>2025-06-23.05:48:05</LastIntrospectionLocalTimestamp>
+    </schema>
+    <table id="5" parent="4" name="files"/>
+    <table id="6" parent="4" name="users"/>
+    <column id="7" parent="5" name="_id">
+      <Position>1</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="8" parent="5" name="createdAt">
+      <Position>1</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <column id="9" parent="5" name="filename">
+      <Position>1</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="10" parent="5" name="size">
+      <Position>1</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="11" parent="5" name="uploadTime">
+      <Position>1</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <column id="12" parent="5" name="__v">
+      <Position>2</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="13" parent="5" name="storagePath">
+      <Position>2</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="14" parent="5" name="userID">
+      <Position>2</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="15" parent="5" name="type">
+      <Position>3</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="16" parent="5" name="updatedAt">
+      <Position>4</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <index id="17" parent="5" name="_id_">
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <column id="18" parent="6" name="_id">
+      <Position>1</Position>
+      <StoredType>ObjectId|12s</StoredType>
+    </column>
+    <column id="19" parent="6" name="__v">
+      <Position>1</Position>
+      <StoredType>Int32|4s</StoredType>
+    </column>
+    <column id="20" parent="6" name="createdAt">
+      <Position>1</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <column id="21" parent="6" name="name">
+      <Position>1</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="22" parent="6" name="updatedAt">
+      <Position>1</Position>
+      <StoredType>ISODate|91s</StoredType>
+    </column>
+    <column id="23" parent="6" name="userId">
+      <Position>1</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="24" parent="6" name="email">
+      <Position>2</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <column id="25" parent="6" name="password">
+      <Position>2</Position>
+      <StoredType>String|12s</StoredType>
+    </column>
+    <index id="26" parent="6" name="_id_">
+      <ColNames>_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="27" parent="6" name="userId_1">
+      <ColNames>userId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="28" parent="6" name="email_1">
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+  </database-model>
+</dataSource>

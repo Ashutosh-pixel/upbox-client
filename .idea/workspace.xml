@@ -4,102 +4,78 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ab32989-f272-4e3c-993e-a68eba15fb4d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gbrowsers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gbrowsers.xml" afterDir="false" />
+    <list default="true" id="3be7a24e-f57f-4a65-9ba6-cec3210ee34a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gbrowsers.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-08T190826.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-08T190852.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2025-05-08T191207.500.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(root)/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(root)/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/[...nextauth]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/home/Home.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sidebar/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sidebar/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/sidebar/SideBarList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/sidebar/SideBarList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/signin/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/signin/Login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/signup/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/signup/SignUp.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/authOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/authOptions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/database/dbConnect.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/database/dbConnect.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/response.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="EndpointsView">
-    <option name="showSidePanel" value="false" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="TypeScript JSX File" />
-        <option value="TypeScript File" />
-        <option value="HTTP Request" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/app/middleware.ts" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="HttpClientSelectedEnvironments">
-    <file url="jar://$APPLICATION_HOME_DIR$/plugins/restClient/lib/restClient.jar!/com/intellij/ws/rest/client/requests/collection/post-requests.http" environment="test" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="2viwsmjZaPlhSTbf6qK5utVznHh" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectId" id="2xTlNEfwPG5aCBuCGvfoiFgO38M" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "HTTP Request.api-test | #2.executor": "Run",
-    "HTTP Request.api-test | GET request to example server.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "js.debugger.nextJs.config.created.client": "true",
-    "js.debugger.nextJs.config.created.server": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Ashu/Documents/Projects/upbox",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "C:/Users/Ashu/AppData/Roaming/JetBrains/WebStorm2025.1/node/versions/22.15.0/node",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "swagger",
-    "settings.editor.splitter.proportion": "0.2160596",
-    "ts.external.directory.path": "C:\\Users\\Ashu\\Documents\\Projects\\upbox\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ashu/Documents/Projects/upbox&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.20666666&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Ashu\\Documents\\Projects\\upbox\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mongo"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mongo&quot;
     ]
   }
-}]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\api" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\api\auth" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\lib" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox" />
-      <recent name="C:\Users\Ashu\Documents\Projects\upbox\app\test" />
-    </key>
-  </component>
+}</component>
   <component name="RunManager" selected="npm.Next.js: server-side">
-    <configuration name="api-test | GET request to example server" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-test.http" executionIdentifier="GET request to example server" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="api-test | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/api-test.http" executionIdentifier="#2" index="2" runType="Run single request">
-      <method v="2" />
-    </configuration>
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
@@ -113,92 +89,48 @@
       <envs />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="HTTP Request.api-test | #2" />
-        <item itemvalue="HTTP Request.api-test | GET request to example server" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-WS-251.23774.424" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
       </set>
     </attachedChunks>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\ashus\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1ab32989-f272-4e3c-993e-a68eba15fb4d" name="Changes" comment="" />
-      <created>1744641413064</created>
+      <changelist id="3be7a24e-f57f-4a65-9ba6-cec3210ee34a" name="Changes" comment="" />
+      <created>1747969906594</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744641413064</updated>
-      <workItem from="1744641414942" duration="812000" />
-      <workItem from="1744642246591" duration="1188000" />
-      <workItem from="1744643458023" duration="390000" />
-      <workItem from="1744643865603" duration="4866000" />
-      <workItem from="1744685544905" duration="649000" />
-      <workItem from="1744767552459" duration="6803000" />
-      <workItem from="1744784203821" duration="4607000" />
-      <workItem from="1744860793197" duration="1677000" />
-      <workItem from="1745072793011" duration="497000" />
-      <workItem from="1745130918708" duration="27000" />
-      <workItem from="1745166881419" duration="92000" />
-      <workItem from="1745251862576" duration="3099000" />
-      <workItem from="1745256944539" duration="3584000" />
-      <workItem from="1745466394538" duration="6334000" />
-      <workItem from="1745497534992" duration="6016000" />
-      <workItem from="1745552899261" duration="3627000" />
-      <workItem from="1745559988341" duration="2502000" />
-      <workItem from="1745575466161" duration="4246000" />
-      <workItem from="1745747164948" duration="405000" />
-      <workItem from="1745755381233" duration="273000" />
-      <workItem from="1745755666924" duration="681000" />
-      <workItem from="1745756360281" duration="1243000" />
-      <workItem from="1745757622415" duration="14097000" />
-      <workItem from="1745809640585" duration="8037000" />
-      <workItem from="1745862964946" duration="2000" />
-      <workItem from="1745892954191" duration="235000" />
-      <workItem from="1745893209888" duration="2432000" />
-      <workItem from="1745896743899" duration="901000" />
-      <workItem from="1745897753408" duration="1735000" />
-      <workItem from="1745899527542" duration="83000" />
-      <workItem from="1745943754540" duration="509000" />
-      <workItem from="1745944277506" duration="3775000" />
-      <workItem from="1746117255522" duration="784000" />
-      <workItem from="1746156056716" duration="2849000" />
-      <workItem from="1746293785727" duration="1914000" />
-      <workItem from="1746332794828" duration="16523000" />
-      <workItem from="1746421060495" duration="2155000" />
-      <workItem from="1746460446025" duration="2455000" />
-      <workItem from="1746550729467" duration="2599000" />
-      <workItem from="1746584267823" duration="20000" />
-      <workItem from="1746584301467" duration="6541000" />
-      <workItem from="1746634468051" duration="2378000" />
-      <workItem from="1746637725938" duration="6041000" />
-      <workItem from="1746679748039" duration="4658000" />
-      <workItem from="1746700498368" duration="10451000" />
+      <updated>1747969906594</updated>
+      <workItem from="1747969908548" duration="1367000" />
+      <workItem from="1747972769317" duration="815000" />
+      <workItem from="1747975080263" duration="2468000" />
+      <workItem from="1747980013025" duration="4557000" />
+      <workItem from="1748110247402" duration="855000" />
+      <workItem from="1750398328390" duration="67000" />
+      <workItem from="1750398432647" duration="315000" />
+      <workItem from="1750398756393" duration="1169000" />
+      <workItem from="1750400414554" duration="626000" />
+      <workItem from="1750401548159" duration="84000" />
+      <workItem from="1750529078895" duration="2697000" />
+      <workItem from="1750567825525" duration="3897000" />
+      <workItem from="1750615717725" duration="141000" />
+      <workItem from="1750616404302" duration="11000" />
+      <workItem from="1750656826830" duration="1757000" />
+      <workItem from="1750659970456" duration="4000" />
+      <workItem from="1750660032065" duration="8000" />
+      <workItem from="1750666040959" duration="583000" />
+      <workItem from="1750740015504" duration="5451000" />
+      <workItem from="1750753005431" duration="3303000" />
+      <workItem from="1750827246261" duration="768000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
