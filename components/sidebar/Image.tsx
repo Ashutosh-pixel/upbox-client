@@ -14,9 +14,8 @@ const Image: React.FC<imageProp> = ({ userID }) => {
   useEffect(() => {
     const eventSource = new EventSource(`http://localhost:3001/event/${userID}`);
     eventSource.onmessage = (event) => {
-      const { userID, storagePath, fileUrl } = JSON.parse(event.data);
-      // setImageMetadata(prevState => [...prevState, fileUrl]);
-      console.log("userID", JSON.parse(event.data));
+      const response = JSON.parse(event.data);
+      setImageMetadata((prevResponse) => [...prevResponse, response]);
     }
   }, [userID])
 

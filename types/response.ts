@@ -9,7 +9,7 @@ export interface data {
 }
 
 export interface imagemetadata {
-    _id: string,
+    _id?: string,
     userID: string,
     filename: string,
     size: string,
