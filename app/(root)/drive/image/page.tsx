@@ -1,15 +1,20 @@
-'use client'
 import Image from '@/components/sidebar/Image'
 import React from 'react'
 import FileUpload from '@/components/fileupload/FileUpload'
+import FolderContainer from '@/components/folder/FolderContainer'
+import FolderCreate from '@/components/folder/FolderCreate'
 
 const page = () => {
-  const userID = "681cbca24c31bfa9b698a961"
-  
+
+  const userID = "68172b1df87d1cb0c096e49f"
+  const parentID = "";
+
   return (
     <div>
-        <div><FileUpload/></div>
-        <Image userID={userID}/>
+      <div><FileUpload /></div>
+      <FolderCreate parentID={null} />
+      <FolderContainer userID={userID} parentID={parentID} />
+      <Image userID={userID} />
     </div>
   )
 }
