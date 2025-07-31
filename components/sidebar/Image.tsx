@@ -19,15 +19,21 @@ const Image: React.FC<imageProp> = ({ userID, parentID }) => {
       const response = JSON.parse(event.data);
       setImageMetadata((prevResponse) => [...prevResponse, response]);
     }
+    return () => eventSource.close()
   }, [userID])
 
   useEffect(() => {
     const fetchImageMetadata = async () => {
-      setLoading(true);
-      const response = await axios.get(`http://localhost:3001/user/files/images?parentID=${parentID}&userID=${userID}`);
-      setImageMetadata(response.data.output);
-      console.log('response', response.data)
-      setLoading(false);
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://localhost:3001/user/files/images?parentID=${parentID}&userID=${userID}`);
+        setImageMetadata(response.data.output);
+      } catch (error) {
+        console.log('error fetching imagemetatdata', error)
+      }
+      finally {
+        setLoading(false);
+      }
     };
     if (userID) fetchImageMetadata();
   }, [userID, parentID]);

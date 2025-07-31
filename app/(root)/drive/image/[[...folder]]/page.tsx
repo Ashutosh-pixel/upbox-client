@@ -8,7 +8,7 @@ import React, { useEffect } from 'react'
 
 const page = () => {
     const params = useParams();
-    const folderPath = params.folder ? (Array.isArray(params.folder) ? params.folder : [params.folder]) : [];
+    const folderPath = Array.isArray(params.folder) ? params.folder : []
 
     const userID = "68172b1df87d1cb0c096e49f";
     const parentID = folderPath.length > 0 ? folderPath[folderPath.length - 1] : null;
@@ -21,8 +21,8 @@ const page = () => {
         <div>
             <FolderCreate parentID={parentID} />
             <FileUpload parentID={parentID} />
-            <FolderContainer parentID={parentID} userID={userID} />
-            <Image userID={userID} parentID={parentID} />
+            <FolderContainer key={parentID} parentID={parentID} userID={userID} />
+            <Image key={`img-${parentID}`} userID={userID} parentID={parentID} />
         </div>
     )
 }

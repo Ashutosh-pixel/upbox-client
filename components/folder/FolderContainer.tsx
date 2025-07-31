@@ -16,10 +16,16 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID }) => {
 
     useEffect(() => {
         const fetchFolders = async () => {
-            setLoading(true);
-            const output = await axios.get(`http://localhost:3001/folder/getallfolder?parentID=${parentID}&userID=${userID}`);
-            setFolders(output.data.output);
-            setLoading(false);
+            try {
+                setLoading(true);
+                const output = await axios.get(`http://localhost:3001/folder/getallfolder?parentID=${parentID}&userID=${userID}`);
+                setFolders(output.data.output);
+            } catch (error) {
+                console.log('error fetching folders', error)
+            }
+            finally {
+                setLoading(false);
+            }
         }
         fetchFolders();
     }, [parentID, userID])
