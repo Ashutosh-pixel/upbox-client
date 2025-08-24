@@ -9,11 +9,17 @@ type folderCreateProps = {
 const FolderCreate: React.FC<folderCreateProps> = ({ parentID }) => {
 
     const [name, setName] = useState<string>('');
-    const userID = "68172b1df87d1cb0c096e49f";
+    const userID = "681cbca24c31bfa9b698a961";
 
     async function folderHandler() {
-        const output = await axios.post('http://localhost:3001/folder/createfolder', { name, parentID, userID, folderPath: name })
-        console.log('status', output.data.message);
+        try {
+            const output = await axios.post('http://localhost:3001/folder/createfolder', { name, parentID, userID, folderPath: name })
+            console.log('status', output.data.message);
+            alert(output.data.message || output.data.error);
+        }
+        catch (error) {
+            console.log('error is', error)
+        }
     }
 
 

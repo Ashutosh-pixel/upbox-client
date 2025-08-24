@@ -13,7 +13,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState<number>(0);
     const [uploading, setUploading] = useState<boolean>(false);
-    const [userID] = useState<string>("68172b1df87d1cb0c096e49f");
+    const [userID] = useState<string>("681cbca24c31bfa9b698a961");
 
     async function upload() {
         if (!file) return;
@@ -25,7 +25,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
             formData.append('parentID', parentID)
         }
 
-        console.log('formData', formData.get("userID"))
+        console.log('formData', formData.get("userID"), formData.get("file"))
         try {
             setUploading(true);
             const response = await axios.post('http://localhost:3001/user/uploadfile', formData, {
