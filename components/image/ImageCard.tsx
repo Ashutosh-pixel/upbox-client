@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react'
 import placeholderImage from '@/public/assets/5f9da896-a466-4190-ab37-04831e3ccbcc.jpg'
 import { dateFormat } from '@/lib/utils'
 import axios from 'axios'
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/lib/redux/store";
+import {setClipboard} from "@/lib/redux/slice/clipboardSlice";
 
 interface ImageCardProps {
     imageMetadata: imagemetadata
@@ -12,6 +15,8 @@ interface ImageCardProps {
 const ImageCard: React.FC<ImageCardProps> = ({ imageMetadata }) => {
 
   const [imageSrc, setImageSRC] = useState<string | StaticImageData>(placeholderImage);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -35,6 +40,19 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageMetadata }) => {
     fetchImage();
   }, [imageMetadata.storagePath])
 
+    const copyFile = () => {
+      const fileMetadata = {
+          name: imageMetadata.filename,
+          userID: imageMetadata.userID,
+          type: imageMetadata.type,
+          size: imageMetadata.size,
+          parentID: imageMetadata.parentID,
+          kind: 'file',
+          originalStoragePath: imageMetadata.storagePath
+      }
+      dispatch(setClipboard(fileMetadata));
+    }
+
   return (
     <div className='p-4 bg-white rounded-xl'>
       <div className='relative w-full h-64 overflow-hidden rounded-xl'>
@@ -45,6 +63,9 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageMetadata }) => {
         <div className='break-words whitespace-normal'>Gallery-{imageMetadata.filename}</div>
       </div>
       <div className='mt-2'>You opened {dateFormat(imageMetadata.updatedAt)}</div>
+        <div>
+            <button onClick={() => copyFile()}>copy</button>
+        </div>
     </div>
   )
 }

@@ -16,7 +16,8 @@ export interface imagemetadata {
     type: string,
     storagePath: string,
     uploadTime: string,
-    updatedAt: string
+    updatedAt: string,
+    parentID: string
 }
 
 export interface folder {
