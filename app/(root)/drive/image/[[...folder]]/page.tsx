@@ -29,12 +29,27 @@ const page = () => {
             const name = clipboard.name;
             const parentID = parentId;
             const userID = clipboard.userID;
-            const originalStoragePath = clipboard.originalStoragePath;
-            const type = clipboard.type;
-            const size = clipboard.size;
+            let originalStoragePath;
+            let type;
+            let size;
+            if(clipboard.kind === 'file'){
+                originalStoragePath = clipboard.originalStoragePath;
+                type = clipboard.type;
+                size = clipboard.size;
+            }
 
-            const response = await axios.post('http://localhost:3001/user/pastefile', {name,parentID,userID,originalStoragePath,type,size});
-            alert(response.data.message || response.data.error)
+            if(clipboard.kind === 'file'){
+                const response = await axios.post('http://localhost:3001/user/pastefile', {name,parentID,userID,originalStoragePath,type,size});
+                alert(response.data.message || response.data.error)
+            }
+
+            else if(clipboard.kind === 'folder'){
+                const id = clipboard.id;
+                const parentID = parentId;
+                const response = await axios.post('http://localhost:3001/folder/pastefolder', {id,name,parentID,userID});
+                alert(response.data.message || response.data.error)
+            }
+
         } catch (error) {
             console.log('error while uploading', error);
         }
@@ -45,8 +60,8 @@ const page = () => {
 
     return (
         <div>
-            <FolderCreate parentID={parentID} />
-            <FileUpload parentID={parentID} />
+            <FolderCreate parentID={parentId} />
+            <FileUpload parentID={parentId} />
             <div><button className="cursor-pointer" onClick={pasteFile}>Paste</button></div>
             <FolderUpload parentID={parentId} userID={userID}/>
             <FolderContainer key={parentId} parentID={parentId} userID={userID} />

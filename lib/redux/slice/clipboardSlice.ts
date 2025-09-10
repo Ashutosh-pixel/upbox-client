@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface reduxClipboardFileInfo {
+    id: string,
     name: string,
     parentID: string,
     userID: string,
@@ -11,6 +12,7 @@ export interface reduxClipboardFileInfo {
 }
 
 const initialState: reduxClipboardFileInfo = {
+    id: "",
     name: "",
     parentID: "",
     userID: "",
@@ -25,6 +27,7 @@ const clipboardSlice = createSlice({
     initialState,
     reducers: {
         setClipboard: (state,action: PayloadAction<reduxClipboardFileInfo>) => {
+            state.id = action.payload.id;
             state.name = action.payload.name;
             state.parentID = action.payload.parentID;
             state.userID = action.payload.userID;

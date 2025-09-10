@@ -42,6 +42,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageMetadata }) => {
 
     const copyFile = () => {
       const fileMetadata = {
+          id: imageMetadata._id,
           name: imageMetadata.filename,
           userID: imageMetadata.userID,
           type: imageMetadata.type,
