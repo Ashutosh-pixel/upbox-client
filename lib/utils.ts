@@ -14,3 +14,17 @@ export function dateFormat(dateStr: string) {
 
   return formattedDate;
 }
+
+export function createChunks(file: File, chunkSize = 5*1024*1024){
+  const chunks = [];
+  let start = 0;
+
+  while(start < file.size){
+    const end = Math.min(start+chunkSize, file.size);
+    const chunk = file.slice(start, end);
+    chunks.push(chunk);
+    start = end;
+  }
+
+  return chunks;
+}

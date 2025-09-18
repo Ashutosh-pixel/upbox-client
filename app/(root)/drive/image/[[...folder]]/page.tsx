@@ -32,13 +32,11 @@ const page = () => {
             let originalStoragePath;
             let type;
             let size;
+
             if(clipboard.kind === 'file'){
                 originalStoragePath = clipboard.originalStoragePath;
                 type = clipboard.type;
                 size = clipboard.size;
-            }
-
-            if(clipboard.kind === 'file'){
                 const response = await axios.post('http://localhost:3001/user/pastefile', {name,parentID,userID,originalStoragePath,type,size});
                 alert(response.data.message || response.data.error)
             }
@@ -60,12 +58,12 @@ const page = () => {
 
     return (
         <div>
-            <FolderCreate parentID={parentId} />
+            {/* <FolderCreate parentID={parentId} /> */}
             <FileUpload parentID={parentId} />
-            <div><button className="cursor-pointer" onClick={pasteFile}>Paste</button></div>
-            <FolderUpload parentID={parentId} userID={userID}/>
-            <FolderContainer key={parentId} parentID={parentId} userID={userID} />
-            <Image key={`img-${parentId}`} userID={userID} parentID={parentId} />
+            {/* <div><button className="cursor-pointer" onClick={pasteFile}>Paste</button></div> */}
+            {/* <FolderUpload parentID={parentId} userID={userID}/> */}
+            {/* <FolderContainer key={parentId} parentID={parentId} userID={userID} /> */}
+            {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
         </div>
     )
 }
