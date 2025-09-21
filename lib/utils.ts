@@ -26,5 +26,6 @@ export function createChunks(file: File, chunkSize = 5*1024*1024){
     start = end;
   }
 
-  return chunks;
+  const totalParts = chunks.length;
+  return {chunks, totalParts};
 }
