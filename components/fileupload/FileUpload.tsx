@@ -20,39 +20,17 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
 
     async function upload() {
         if (!file) return;
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('userID', userID);
-
-        if (parentID) {
-            formData.append('parentID', parentID)
-        }
-
-        console.log('formData', formData.get("userID"), formData.get("file"))
         try {
             setUploading(true);
-            
-            /* ------ Don't need right now ------- */
-            // const response = await axios.post('http://localhost:3001/user/uploadfile', formData, {
-            //     onUploadProgress: (progressEvent) => {
-            //         const { loaded, total } = progressEvent;
-            //         if (typeof total === "number" && total > 0) {
-            //             const percentCompleted = Math.floor((loaded * 100) / total);
-            //             console.log('loaded & total', loaded, total);
-            //             setProgress(percentCompleted);
-            //         }
-            //     },
-            // })
-            // alert(response.data.message || response.data.error)
-            /* ----------------------------------------------------- */
             
             // Step:1 setup connection with s3 by backend server
             const fileName = file.name;
             const fileSize = file.size;
             const chunkSize = 5*1024*1024;
             const {totalParts} = createChunks(file,chunkSize);
-            const initRes = await axios.post('http://localhost:3001/user/file/upload/initiate', {fileName, userID, fileSize, totalParts, chunkSize});
+            const initRes = await axios.post('http://localhost:3001/user/uploadfile', { fileName, userID, fileSize, totalParts, chunkSize, mimetype: file.type, parentID });
             const uploadId = await initRes.data.uploadId;
+            const storagePath = await initRes.data.storagePath;
             setUploadId(uploadId);
             setFileName(fileName);
 
@@ -66,7 +44,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 if (i === 3) throw new Error("Simulated network failure");
                 
                 // Step:3 get presigned urls for each parts from backend server 
-                const res = await fetch(`http://localhost:3001/user/file/upload/url?fileName=${fileName}&uploadId=${uploadId}&partNumber=${i + 1}`);
+                const res = await fetch(`http://localhost:3001/user/file/upload/url?fileName=${fileName}&uploadId=${uploadId}&storagePath=${storagePath}&partNumber=${i + 1}`);
                 const { url } = await res.json();
 
                 // Step:4 upload chunks to s3
@@ -85,7 +63,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
 
 
             // Step:6 complete upload
-            const finalRes = await axios.post('http://localhost:3001/user/file/upload/complete', {fileName, uploadId, parts: uploadParts, userID});
+            const finalRes = await axios.post('http://localhost:3001/user/file/upload/complete', { fileName, uploadId, parts: uploadParts, userID, storagePath, parentID });
             if(finalRes.data.location) {
                 setFileName('');
                 setUploadId('');
@@ -108,6 +86,8 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 const fileSize = response.data.output.fileSize;
                 const chunkSize = response.data.output.chunkSize;
                 const uploadParts = response.data.output.uploadParts;
+                const storagePath = response.data.storagePath;
+
                 if(file) {
                     // Setp:2 split file into chunks
                     const { chunks, totalParts } = createChunks(file, chunkSize);
@@ -119,7 +99,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                         }
                         
                         // Step:3 get presigned urls for each parts from backend server
-                        const res = await fetch(`http://localhost:3001/user/file/upload/url?fileName=${fileName}&uploadId=${uploadId}&partNumber=${i}`);
+                        const res = await fetch(`http://localhost:3001/user/file/upload/url?fileName=${fileName}&uploadId=${uploadId}&storagePath=${storagePath}&partNumber=${i}`);
                         const { url } = await res.json();
 
                         // Step:4 upload chunks to s3
@@ -138,7 +118,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 }
 
                 // Step:6 complete upload
-                const finalRes = await axios.post('http://localhost:3001/user/file/upload/complete', { fileName, uploadId, parts: uploadParts, userID });
+                const finalRes = await axios.post('http://localhost:3001/user/file/upload/complete', { fileName, uploadId, parts: uploadParts, userID, storagePath, parentID });
                 if (finalRes.data.location) {
                     setFileName('');
                     setUploadId('');

@@ -62,7 +62,7 @@ const page = () => {
             <FileUpload parentID={parentId} />
             {/* <div><button className="cursor-pointer" onClick={pasteFile}>Paste</button></div> */}
             {/* <FolderUpload parentID={parentId} userID={userID}/> */}
-            {/* <FolderContainer key={parentId} parentID={parentId} userID={userID} /> */}
+            <FolderContainer key={parentId} parentID={parentId} userID={userID} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
         </div>
     )
