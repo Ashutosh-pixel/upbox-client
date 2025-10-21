@@ -1,6 +1,8 @@
 import { selectedFiles, selectedFolders } from "@/types/folder";
 import React, {useEffect, useRef, useState} from "react";
+import { v4 as uuidv4 } from 'uuid';
 import axios from "axios";
+import { handleUploadFile } from "@/lib/fileUpload";
 
 type SelectedFolderProps = {
     parentID: string | null,
@@ -11,6 +13,9 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({parentID, userID}) => {
 
     const [selectedFiles, setSelectedFiles] = useState<selectedFiles[]>([]);
     const [selectedFolders, setSelectedFolders] = useState<selectedFolders[]>([]);
+    const [uploadId, setUploadId] = useState<string[]>([]);
+    const [fileName, setFileName] = useState<string[]>([]);
+    const [uploading, setUploading] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     function processFileUpload(event:any){
@@ -28,7 +33,7 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({parentID, userID}) => {
                 type: filelist[i].type,
                 file: filelist[i]
             }
-            let path = filelist[i].webkitRelativePath;
+            const path = filelist[i].webkitRelativePath;
             newPath.add(path.substring(0, path. lastIndexOf('/')));
             selectedFile.push(newFile);
         }
@@ -50,7 +55,7 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({parentID, userID}) => {
         setSelectedFolders(selectedFolder);
     }
 
-    async function handleUpload() {
+    async function handleUploadFolders() {
         try {
             if(fileInputRef.current?.value){
                 fileInputRef.current.value = "";
@@ -59,25 +64,23 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({parentID, userID}) => {
                 console.log("select files")
                 return;
             }
-            const formData = new FormData();
-            formData.append('userID', userID);
-            formData.append('parentID', JSON.stringify(parentID));
-            formData.append('folders', JSON.stringify(selectedFolders));
-            formData.append('fileMeta', JSON.stringify(selectedFiles));
 
-            for (let i=0; i < selectedFiles.length; i++){
-                formData.append('files', selectedFiles[i].file);
+            const output = await axios.post("http://localhost:3001/folder/uploadfolder", {userID, parentID, folders: selectedFolders, fileMeta: selectedFiles});
+            const folderMap = output.data.folderMap;
+
+            for (let i=0; i< selectedFiles.length; i++){
+                const folderDoc = folderMap[selectedFiles[i].parent];
+                const storagePath = `${folderDoc.storagePath}${uuidv4()}-${selectedFiles[i].name}`;
+                const pathIds = [...folderDoc.pathIds, folderDoc._id];
+                const pathNames = folderDoc.pathNames;
+                const folderID = folderDoc._id;
+
+                await handleUploadFile(selectedFiles[i].file, folderID, userID, folderID, pathIds, pathNames, storagePath, setUploadId, setUploading, setFileName);
             }
-
-            const output = await axios.post("http://localhost:3001/folder/uploadfolder", formData, {
-                headers: { "Content-Type": "multipart/form-data" }
-            });
-            console.log('folder uploaded success');
-            alert(output.data.message)
 
         }
         catch (error){
-            console.log('folder upload failed');
+            console.log('folder upload failed', error);
         }
     }
 
@@ -87,7 +90,7 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({parentID, userID}) => {
 
     return <div>
         <input type="file" webkitdirectory="true" onChange={processFileUpload} ref={fileInputRef}/>
-        <button onClick={handleUpload}>Upload Folder</button>
+        <button onClick={handleUploadFolders}>Upload Folder</button>
     </div>
 }
 
