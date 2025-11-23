@@ -26,5 +26,22 @@ export interface folder {
     parentID: string,
     userID: string,
     storagePath: string,
-    uploadTime: string
+    pathIds:[any],
+    pathNames: [string],
+    status: string,
+    uploadTime: Date,
+    updatedAt: Date
+}
+
+export interface fileMetaData {
+    _id: string,
+    userID: string,
+    filename: string,
+    size: number,
+    type: string,
+    storagePath: string,
+    uploadTime: string,
+    updatedAt: string,
+    parentID: string
+    sourcePath?: string
 }

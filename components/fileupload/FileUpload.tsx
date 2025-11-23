@@ -29,7 +29,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
             const fileSize = file.size;
             const chunkSize = 5*1024*1024;
             const {totalParts} = createChunks(file,chunkSize);
-            const initRes = await axios.post('http://localhost:3001/user/uploadfile', { fileName, userID, fileSize, totalParts, chunkSize, mimetype: file.type, parentID });
+            const initRes = await axios.post('http://localhost:3001/user/uploadfile', { fileName, userID, fileSize, totalParts, chunkSize, fileType: file.type, parentID });
             const uploadId = await initRes.data.uploadId;
             const storagePath = await initRes.data.storagePath;
             const fileID = await initRes.data.fileID;
@@ -44,7 +44,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
             let i = 0;
             while (i < totalParts) {
                 // TEMPORARY: Extra check to test the RESUME feature during development
-                if (i === 3) throw new Error("Simulated network failure");
+                // if (i === 3) throw new Error("Simulated network failure");
 
                 // Step:3 get presigned urls for each parts from backend server
                 const res = await fetch(`http://localhost:3001/user/file/upload/url?fileName=${fileName}&uploadId=${uploadId}&storagePath=${storagePath}&partNumber=${i + 1}`);

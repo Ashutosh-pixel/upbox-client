@@ -25,7 +25,7 @@ const FolderCreate: React.FC<folderCreateProps> = ({ parentID }) => {
 
     return (
         <div>
-            <input type="text" onChange={(e) => setName(e.target.value)} />
+            <input type="text" onChange={(e) => setName((e.target.value).trim())} />
             <button onClick={() => folderHandler()}>Submit</button>
         </div>
     )

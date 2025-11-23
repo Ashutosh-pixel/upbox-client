@@ -3,21 +3,23 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { folder } from '@/types/response';
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/lib/redux/store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/lib/redux/store";
 import {setClipboard} from "@/lib/redux/slice/clipboardSlice";
 
 type FolderProps = {
     parentID: string | null,
-    userID: string
+    userID: string,
+    folderResponse: folder[]
 }
-const FolderContainer: React.FC<FolderProps> = ({ userID, parentID }) => {
+const FolderContainer: React.FC<FolderProps> = ({ userID, parentID, folderResponse }) => {
 
     const [folders, setFolders] = useState<folder[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
     const dispatch = useDispatch<AppDispatch>();
+    // const newFolders: any[] = useSelector((state: RootState) => state.sse.folders);
 
     useEffect(() => {
         const fetchFolders = async () => {
@@ -35,6 +37,17 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID }) => {
         fetchFolders();
     }, [parentID, userID])
 
+    useEffect(() => {
+        if(folderResponse[0]?._id && folderResponse[0]?.parentID === parentID){
+            folders.map((folder) => {
+                if(folderResponse[0]?._id === folder._id){
+                    return;
+                }
+            })
+            setFolders((prev) => [...prev, folderResponse[0]]);
+        }
+    }, [folderResponse])
+
     const copyFolder = (item: any) => {
         console.log('copy', item);
 //        console.log('folders', folders);
@@ -47,6 +60,10 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID }) => {
         }
         dispatch(setClipboard(folderMetadata));
     }
+
+    useEffect(() => {
+        console.log('folderResponse', folderResponse);
+    }, [folderResponse])
 
     return (
         <div>
@@ -63,23 +80,3 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID }) => {
 }
 
 export default FolderContainer;
-
-// {
-//     "_id": "68ab0f6656e2a73db64d44cc",
-//     "name": "New folder (2)",
-//     "parentID": "68ab0f6456e2a73db64d44c3",
-//     "userID": "681cbca24c31bfa9b698a961",
-//     "storagePath": "user-681cbca24c31bfa9b698a961/uploads/test/New folder (2)/",
-//     "pathIds": [
-//     null,
-//     "68ab0f6456e2a73db64d44c3"
-// ],
-//     "pathNames": [
-//     "test",
-//     "New folder (2)"
-// ],
-//     "uploadTime": "2025-08-24T13:11:02.177Z",
-//     "createdAt": "2025-08-24T13:11:02.177Z",
-//     "updatedAt": "2025-08-24T13:11:02.177Z",
-//     "__v": 0
-// }

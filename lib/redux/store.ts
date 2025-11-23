@@ -1,11 +1,13 @@
 import {configureStore} from "@reduxjs/toolkit";
 import userReducer from './slice/userSlice'
 import clipboardSlice from "@/lib/redux/slice/clipboardSlice";
+import sseConnectSlice from "./slice/sseConnectSlice";
 
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        clipboard: clipboardSlice
+        clipboard: clipboardSlice,
+        sse: sseConnectSlice
     }
 })
 

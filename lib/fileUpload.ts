@@ -10,6 +10,7 @@ export async function handleUploadFile(file: File, folderID: string, userID: str
     // Step:1 setup connection with s3 by backend server
     const fileName = file.name;
     const fileSize = file.size;
+    const fileType = file.type;
     const chunkSize = 5 * 1024 * 1024;
     const { totalParts } = createChunks(file, chunkSize);
 
@@ -19,7 +20,7 @@ export async function handleUploadFile(file: File, folderID: string, userID: str
       fileSize,
       totalParts,
       chunkSize,
-      mimetype: file.type,
+      fileType,
       parentID,
       pathIds,
       pathNames,
