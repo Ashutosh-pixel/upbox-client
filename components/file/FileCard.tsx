@@ -1,7 +1,7 @@
-import {reduxClipboardFileInfo, setClipboard} from '@/lib/redux/slice/clipboardSlice';
+import { copyFile } from '@/functions/file/copyFile';
+import { getFileURL } from '@/functions/file/fetchFileURL';
 import { dateFormat } from '@/lib/utils'
 import { fileMetaData } from '@/types/response'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import {useDispatch} from "react-redux";
 
@@ -14,18 +14,10 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
 
     const [fileURL, setFileURL] = useState<string>("");
     const dispatch = useDispatch();
+    const url: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
-        const getFileURL = async () => {
-            try {
-                const res = await axios.get(`http://localhost:3001/user/file/${fileMetadata._id}`);
-                const url = await res.data.url;
-                setFileURL(url);
-            } catch (error) {
-                console.log('failed to get fileURL', error);
-            }
-        }
-        if (fileMetadata?._id) getFileURL();
+      if (fileMetadata?._id) getFileURL(url, fileMetadata, setFileURL);
     }, [fileMetadata]);
 
 
@@ -57,20 +49,6 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
         }
     }
 
-    const copyFile = () => {
-        const copyFileMetadata: reduxClipboardFileInfo = {
-            id: fileMetadata._id,
-            name: fileMetadata.filename,
-            userID: fileMetadata.userID,
-            type: fileMetadata.type,
-            size: fileMetadata.size,
-            parentID: fileMetadata.parentID,
-            kind: 'file',
-            originalStoragePath: fileMetadata.storagePath
-        }
-        dispatch(setClipboard(copyFileMetadata));
-    }
-
     return (
         <div className='p-4 bg-white rounded-xl'>
             <div className='relative w-96 h-64 overflow-hidden rounded-xl'>
@@ -82,7 +60,7 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
             </div>
             <div className='mt-2'>You opened {dateFormat(fileMetadata.updatedAt)}</div>
             <div>
-                <button onClick={() => copyFile()}>copy</button>
+                <button onClick={() => copyFile(fileMetadata, dispatch)}>copy</button>
             </div>
         </div>
     )

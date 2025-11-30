@@ -1,11 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { folder } from '@/types/response';
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "@/lib/redux/store";
-import {setClipboard} from "@/lib/redux/slice/clipboardSlice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@/lib/redux/store";
+import { fetchFolders } from '@/functions/folder/fetchFolders';
+import { copyFolder } from './copyFolder';
 
 type FolderProps = {
     parentID: string | null,
@@ -19,22 +19,11 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID, folderRespon
     const router = useRouter();
 
     const dispatch = useDispatch<AppDispatch>();
+    const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
     // const newFolders: any[] = useSelector((state: RootState) => state.sse.folders);
 
     useEffect(() => {
-        const fetchFolders = async () => {
-            try {
-                setLoading(true);
-                const output = await axios.get(`http://localhost:3001/folder/getallfolder?parentID=${parentID}&userID=${userID}`);
-                setFolders(output.data.output);
-            } catch (error) {
-                console.log('error fetching folders', error)
-            }
-            finally {
-                setLoading(false);
-            }
-        }
-        fetchFolders();
+        if(userID) fetchFolders(API_BASE_URL, userID, parentID, setFolders, setLoading);
     }, [parentID, userID])
 
     useEffect(() => {
@@ -48,19 +37,6 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID, folderRespon
         }
     }, [folderResponse])
 
-    const copyFolder = (item: any) => {
-        console.log('copy', item);
-//        console.log('folders', folders);
-        const folderMetadata = {
-            id: item._id,
-            name: item.name,
-            userID: item.userID,
-            parentID: item.parentID,
-            kind: 'folder',
-        }
-        dispatch(setClipboard(folderMetadata));
-    }
-
     useEffect(() => {
         console.log('folderResponse', folderResponse);
     }, [folderResponse])
@@ -72,7 +48,7 @@ const FolderContainer: React.FC<FolderProps> = ({ userID, parentID, folderRespon
                     <div key={index} onClick={() => !parentID ? router.push(`image/${item._id}`) : router.push(`${item._id}`)}>
                         <p>{item.name}</p>
                     </div>
-                    <button onClick={() => copyFolder(item)}>copy</button>
+                    <button onClick={() => copyFolder(item, dispatch)}>copy</button>
                 </div>
             })}
         </div>

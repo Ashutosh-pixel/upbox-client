@@ -1,9 +1,7 @@
 import { fileMetaData } from "@/types/response";
 import React, { useEffect, useState } from "react";
 import FileCard from "../file/FileCard";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
+import { fetchFiles } from "@/functions/file/fetchFolderFiles";
 
 interface fileProp {
   userID: string;
@@ -14,22 +12,10 @@ interface fileProp {
 const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse }) => {
   const [files, setFiles] = useState<fileMetaData[]>([]);
   const [fileLoading, setFileLoading] = useState<boolean>(true);
+  const url: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
   useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/user/files?parentID=${parentID}&userID=${userID}`);
-        console.log('response', response);
-        setFiles(response.data.output);
-      } catch (error) {
-        console.log('error fetching filemetadata', error)
-      }
-      finally {
-        setFileLoading(false);
-      }
-    }
-
-    if (userID) fetchFiles();
+    if (userID) fetchFiles(url, parentID, userID, setFiles, setFileLoading);
   }, [parentID])
 
     useEffect(() => {
