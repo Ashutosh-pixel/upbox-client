@@ -52,7 +52,7 @@ const Navbar = () => {
       <div className="searchbar border-2 items-center rounded-md flex relative w-80">
         {/* Ghost Text */}
         <div className="absolute top-0 left-0 m-1 ml-3 mr-3 pointer-events-none text-gray-400 whitespace-pre">
-          {searchQuery}
+          {/*{searchQuery}  this is use to overlap*/}
           <span className="">{ghostedText?.toLowerCase()}</span>
         </div>
 
