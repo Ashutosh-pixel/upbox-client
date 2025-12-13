@@ -3,7 +3,7 @@ import { getFileURL } from '@/functions/file/fetchFileURL';
 import { dateFormat } from '@/lib/utils'
 import { fileMetaData } from '@/types/response'
 import React, { useEffect, useState } from 'react'
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 interface filemetadataProp {
     fileMetadata: fileMetaData
@@ -17,7 +17,7 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
     const url: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
-      if (fileMetadata?._id) getFileURL(url, fileMetadata, setFileURL);
+        if (fileMetadata?._id) getFileURL(url, fileMetadata, setFileURL);
     }, [fileMetadata]);
 
 

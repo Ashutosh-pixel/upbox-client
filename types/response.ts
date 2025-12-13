@@ -26,7 +26,7 @@ export interface folder {
     parentID: string,
     userID: string,
     storagePath: string,
-    pathIds:[any],
+    pathIds: [any],
     pathNames: [string],
     status: string,
     uploadTime: Date,
