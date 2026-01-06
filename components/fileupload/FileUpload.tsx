@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CircularProgressWithLabel } from "./CircularProgressWithLabel";
 import { upload } from "@/functions/file/singleFileUpload";
 import { resume } from "@/functions/file/resumeSingleFile";
+import FileDuplicateWindowPop from "../duplicate/FileDuplicateWindowPop";
 
 type fileUploadProp = {
     parentID: string | null
@@ -18,7 +19,10 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
     const [fileID, setFileID] = useState<string>('');
     const [fileName, setFileName] = useState<string>('');
     const [userID] = useState<string>("681cbca24c31bfa9b698a961");
-    
+
+    // check duplicate upload
+    const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
+
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     return (
@@ -28,11 +32,16 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                     setFile(e.target.files[0]);
                 }
             }} />
-            <button onClick={() => upload(API_BASE_URL, file, userID, parentID, setUploading, setFileID, setUploadId, setFileName)}>Upload</button>
+            <button onClick={() => {
+                const fileName = file ? file.name : "";
+                upload(API_BASE_URL, file, fileName, userID, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate)
+            }}>Upload</button>
             {uploading ? <CircularProgressWithLabel value={progress} /> : null}
             <div>
-                <button onClick={()=> resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
+                <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>
+
+            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} />}
         </div>
     )
 }

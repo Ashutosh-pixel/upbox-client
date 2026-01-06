@@ -2,13 +2,13 @@ import { createChunks } from "@/lib/utils";
 import { Setter } from "@/types/global";
 import axios from "axios";
 
-export async function upload(baseUrl: string, file: File|null, userID: string, parentID: string|null, setUploading: Setter<boolean>, setFileID: Setter<string>, setUploadId: Setter<string>, setFileName: Setter<string>) {
+export async function upload(baseUrl: string, file: File | null, file_Name: string, userID: string, parentID: string | null, setUploading: Setter<boolean>, setFileID: Setter<string>, setUploadId: Setter<string>, setFileName: Setter<string>, setIsDuplicate: Setter<boolean>) {
   if (!file) return;
   try {
     setUploading(true);
 
     // Step:1 setup connection with s3 by backend server
-    const fileName = file.name;
+    const fileName = file_Name.trim();
     const fileSize = file.size;
     const chunkSize = 5 * 1024 * 1024;
     const { totalParts } = createChunks(file, chunkSize);
@@ -35,7 +35,7 @@ export async function upload(baseUrl: string, file: File|null, userID: string, p
     let i = 0;
     while (i < totalParts) {
       // TEMPORARY: Extra check to test the RESUME feature during development
-      if (i === 3) throw new Error("Simulated network failure");
+      // if (i === 3) throw new Error("Simulated network failure");
 
       // Step:3 get presigned urls for each parts from backend server
       const res = await fetch(
@@ -54,7 +54,7 @@ export async function upload(baseUrl: string, file: File|null, userID: string, p
       // Step:5 make a record in database
       await axios.post(
         `${baseUrl}/user/file/uploadsession/uploadparts`,
-        { uploadPartInfo, userID, fileName, uploadId },
+        { uploadPartInfo, userID, fileName: fileName, uploadId, fileID, fileSize, chunkSize, totalParts },
       );
 
       i++;
@@ -70,8 +70,14 @@ export async function upload(baseUrl: string, file: File|null, userID: string, p
       setUploadId("");
     }
     alert(finalRes.data.message || finalRes.data.error);
-  } catch (error) {
-    console.log("error while uploading", error);
+  } catch (err: any) {
+    console.log("error while uploading", err.response);
+    if (err.response?.status === 409) {
+      if (err.response?.data?.errorCode === "DUPLICATE_FILE") {
+        console.log('duplicate');
+        setIsDuplicate(true);
+      }
+    }
   } finally {
     setUploading(false);
   }

@@ -6,3 +6,13 @@ export interface searching {
   parentID: string,
   type: string
 }
+
+export interface afterRename {
+  uploadId: string;
+  fileName: string;
+  parentID: string | null;
+  fileID: string;
+  userID: string;
+  storagePath: string;
+  file: File | null
+}

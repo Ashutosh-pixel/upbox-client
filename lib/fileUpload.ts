@@ -2,13 +2,13 @@ import axios from "axios";
 import { createChunks } from "./utils";
 import { Setter } from "@/types/upload";
 
-export async function handleUploadFile(file: File, folderID: string, userID: string, parentID: string|null, pathIds: string[], pathNames: string[], storagePath: string, setUploadId: Setter<string[]>, setUploading: Setter<boolean>, setFileName: Setter<string[]>) {
+export async function handleUploadFile(file: File, name: string, folderID: string, userID: string, parentID: string | null, pathIds: string[], pathNames: string[], storagePath: string, setUploadId: Setter<string[]>, setUploading: Setter<boolean>, setFileName: Setter<string[]>) {
   if (!file) return;
   try {
     setUploading(true);
 
     // Step:1 setup connection with s3 by backend server
-    const fileName = file.name;
+    const fileName = name;
     const fileSize = file.size;
     const fileType = file.type;
     const chunkSize = 5 * 1024 * 1024;
@@ -58,7 +58,7 @@ export async function handleUploadFile(file: File, folderID: string, userID: str
       // Step:5 make a record in database
       await axios.post(
         "http://localhost:3001/user/file/uploadsession/uploadparts",
-        { uploadPartInfo, userID, fileName, uploadId },
+        { uploadPartInfo, userID, fileName, uploadId, fileID, fileSize, chunkSize, totalParts },
       );
 
       i++;

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import axios from "axios";
 import FileContainer from "@/components/sidebar/File";
-import {fileMetaData, folder} from "@/types/response";
+import { fileMetaData, folder } from "@/types/response";
 import { pasteFile } from '@/functions/file/pasteFile';
 
 const page = () => {
@@ -28,7 +28,7 @@ const page = () => {
     const parentId = folderPath.length > 0 ? folderPath[folderPath.length - 1] : null;
 
     const clipboard: any = useSelector((state: RootState) => state.clipboard);
-    
+
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
@@ -55,19 +55,19 @@ const page = () => {
 
     return (
         <div>
-             <FolderCreate parentID={parentId} />
-            
+            <FolderCreate parentID={parentId} />
+
             {/* Button */}
             <FileUpload parentID={parentId} />
-            
-             <div><button className="cursor-pointer" onClick={() => pasteFile(API_BASE_URL, clipboard, uploading, parentId, setUploading)}>Paste</button></div>
+
+            <div><button className="cursor-pointer" onClick={() => pasteFile(API_BASE_URL, clipboard, uploading, parentId, setUploading)}>Paste</button></div>
 
             {/* Button */}
             <FolderUpload parentID={parentId} userID={userID} />
-            
-            <FolderContainer key={parentId} parentID={parentId} userID={userID} folderResponse={folderResponse}/>
+
+            <FolderContainer key={parentId} parentID={parentId} userID={userID} folderResponse={folderResponse} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
-            <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse}/>
+            <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse} />
         </div>
     )
 }

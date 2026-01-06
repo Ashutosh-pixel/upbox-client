@@ -1,7 +1,7 @@
 import { selectedFiles, selectedFolders } from "@/types/folder";
 import { Setter } from "@/types/global";
 
-export function processFileUpload(event: any, parentID: string|null, setSelectedFiles: Setter<selectedFiles[]>, setSelectedFolders: Setter<selectedFolders[]>) {
+export function processFileUpload(event: any, parentID: string | null, setSelectedFiles: Setter<selectedFiles[]>, setSelectedFolders: Setter<selectedFolders[]>) {
   const filelist = event.target.files;
   const newPath = new Set<string>();
 
