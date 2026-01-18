@@ -35,7 +35,7 @@ const FileDuplicateWindowPop: React.FC<duplicateProp> = ({ userID, parentID, fil
         isDuplicate && <div>
             <div>{file?.name}</div>
             <button onClick={() => RenameDuplicateFile(file, userID, parentID, setAfterRenameArray)}>Rename</ button>
-            <button>Skip</button>
+            <button onClick={() => setIsDuplicate(false)}>Skip</button>
         </div>
     )
 }

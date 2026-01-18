@@ -12,3 +12,9 @@ export interface selectedFolders {
     parent: string | null;
     path: string;
 }
+
+export interface duplicate {
+    file: File | null;
+    name: string;
+    path: string;
+}

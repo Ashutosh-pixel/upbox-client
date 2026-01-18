@@ -1,8 +1,8 @@
-import { selectedFiles } from "@/types/folder";
+import { duplicate, selectedFiles } from "@/types/folder";
 import { afterRename, Setter } from "@/types/global";
 import axios from "axios";
 
-export async function RenameDuplicateFiles(originalFile: File | null, userID: string, duplicateFile: string, folderMap: any, selectedFiles: selectedFiles[], setAfterRenameArray: Setter<afterRename[]>) {
+export async function RenameDuplicateFiles(originalFile: File | null, userID: string, duplicateFile: string, folderMap: any, selectedFiles: selectedFiles[], setAfterRenameArray: Setter<afterRename[]>, setDuplicateFiles: Setter<duplicate[]>) {
     try {
         console.log('selected', selectedFiles)
         const file = { originalName: '', type: "", action: 'rename' };
@@ -34,6 +34,9 @@ export async function RenameDuplicateFiles(originalFile: File | null, userID: st
         }
 
         setAfterRenameArray((prev) => [...prev, newRenamedFileRecord]);
+
+        /* we check put after or before */
+        setDuplicateFiles((duplicateFile) => duplicateFile.filter(f => f.file !== originalFile));
 
     } catch (error) {
         console.log('error while rename', error)

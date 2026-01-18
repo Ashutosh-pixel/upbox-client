@@ -1,6 +1,6 @@
 import { fileUpload } from '@/functions/file/fileUpload';
 import { RenameDuplicateFiles } from '@/functions/file/renameDuplicateFiles';
-import { selectedFiles } from '@/types/folder';
+import { duplicate, selectedFiles } from '@/types/folder';
 import { afterRename, Setter } from '@/types/global';
 import React, { useEffect, useState } from 'react'
 
@@ -11,13 +11,6 @@ interface duplicateProp {
     selectedFiles: selectedFiles[];
     setDuplicateFilesResponse: Setter<any>;
 }
-
-interface duplicate {
-    file: File | null;
-    name: string;
-    path: string;
-}
-
 
 const FilesDuplicateWindowPop: React.FC<duplicateProp> = ({ userID, duplicateFilesResponse, folderMap, selectedFiles, setDuplicateFilesResponse }) => {
 
@@ -49,28 +42,27 @@ const FilesDuplicateWindowPop: React.FC<duplicateProp> = ({ userID, duplicateFil
 
     useEffect(() => {
         const fileupload = async () => {
-            if (duplicateFilesResponse.length === afterRenameArray.length && afterRenameArray.length > 0) {
+            if (afterRenameArray.length > 0 && duplicateFiles.length === 0) {
 
                 afterRenameArray.map(async (item: afterRename, index) => {
                     await fileUpload(API_BASE_URL, item.file, item.fileName, item.userID, item.parentID, item.uploadId, item.storagePath, item.fileID);
                 })
 
-                setDuplicateFiles([]);
                 setDuplicateFilesResponse([]);
 
             }
         }
 
         fileupload();
-    }, [afterRenameArray])
+    }, [duplicateFiles])
 
     return (
         duplicateFiles.map((item, index: number) => {
 
             return <div key={index}>
                 <div>{item.name}</div>
-                <button onClick={() => RenameDuplicateFiles(item.file, userID, item.path, folderMap, selectedFiles, setAfterRenameArray)}>Rename</ button>
-                <button>Skip</button>
+                <button onClick={() => RenameDuplicateFiles(item.file, userID, item.path, folderMap, selectedFiles, setAfterRenameArray, setDuplicateFiles)}>Rename</ button>
+                <button onClick={() => setDuplicateFiles((duplicateFileArray) => duplicateFileArray.filter(f => f.file !== item.file))}>Skip</button>
             </div>
         })
     )
