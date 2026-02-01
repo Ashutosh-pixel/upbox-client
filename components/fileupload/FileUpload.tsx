@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { CircularProgressWithLabel } from "./CircularProgressWithLabel";
 import { upload } from "@/functions/file/singleFileUpload";
@@ -41,7 +41,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>
 
-            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} />}
+            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} setUploading={setUploading} setProgress={setProgress}/>}
         </div>
     )
 }
