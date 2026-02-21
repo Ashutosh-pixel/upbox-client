@@ -41,7 +41,7 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>
 
-            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} setUploading={setUploading} setProgress={setProgress}/>}
+            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} setUploading={setUploading} setProgress={setProgress} />}
         </div>
     )
 }
