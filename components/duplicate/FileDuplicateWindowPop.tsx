@@ -18,7 +18,6 @@ interface duplicateProp {
 const FileDuplicateWindowPop: React.FC<duplicateProp> = ({ userID, parentID, file, isDuplicate, setIsDuplicate, setUploading, setProgress }) => {
 
     const [afterRenameArray, setAfterRenameArray] = useState<afterRename[]>([]);
-    const clipboard: any = useSelector((state: RootState) => state.fileUploadProgress);
     const dispatch = useDispatch();
 
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';

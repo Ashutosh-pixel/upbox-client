@@ -1,7 +1,7 @@
 import { createChunks } from "@/lib/utils";
 import axios from "axios";
 
-export default class UploadTask2 {
+export default class UploadTask2 extends EventTarget {
 
     private file: File;
     private fileName: string;
@@ -23,8 +23,11 @@ export default class UploadTask2 {
     private index: number;
     private chunks: Blob[] = [];
     private uploadParts: { PartNumber: number; ETag: any; }[] = [];
+    private uploadedBytes: number;
+    private tempFileID: string;
 
-    constructor(index: number, baseUrl: string, file: File, name: string, folderID: string, userID: string, parentID: string | null, pathIds: string[], pathNames: string[], storagePath: string) {
+    constructor(index: number, baseUrl: string, file: File, name: string, folderID: string, userID: string, parentID: string | null, pathIds: string[], pathNames: string[], storagePath: string, tempFileID: string) {
+        super();
         this.fileName = name;
         this.userID = userID;
         this.file = file;
@@ -40,6 +43,8 @@ export default class UploadTask2 {
         this.baseUrl = baseUrl;
         this.index = index;
         this.chunks = chunks;
+        this.uploadedBytes = 0;
+        this.tempFileID = tempFileID;
     }
 
     private async saveFileMetadataToDB() {
@@ -82,6 +87,18 @@ export default class UploadTask2 {
     public async uploadFile() {
         try {
             await this.saveFileMetadataToDB();
+
+            /* event */
+            this.dispatchEvent(new CustomEvent("initiate", {
+                detail: {
+                    fileID: this.fileID,
+                    fileName: this.fileName,
+                    uploadedBytes: this.uploadedBytes,
+                    totalSize: this.fileSize,
+                    status: "hashing",
+                    tempFileID: this.tempFileID
+                }
+            }));
 
             console.log('uploadfileafter', this.fileID, this.uploadQueue)
 
@@ -128,6 +145,20 @@ export default class UploadTask2 {
         // Step:4 upload chunks to s3
         const uploadRes = await axios.put(url, this.chunks[i]);
 
+        this.uploadedBytes += this.chunks[i].size;
+
+        /* event */
+        this.dispatchEvent(new CustomEvent("progress", {
+            detail: {
+                fileID: this.fileID,
+                fileName: this.fileName,
+                uploadedBytes: this.uploadedBytes,
+                totalSize: this.fileSize,
+                status: "uploading",
+                tempFileID: this.tempFileID
+            }
+        }))
+
         const eTag = uploadRes.headers["etag"] || uploadRes.headers["Etag"];
         this.uploadParts.push({ PartNumber: i + 1, ETag: eTag });
 
@@ -160,6 +191,19 @@ export default class UploadTask2 {
             `${this.baseUrl}/user/file/upload/complete`,
             { uploadId, parts: this.uploadParts.sort((a, b) => a.PartNumber - b.PartNumber), storagePath, folderID, fileID },
         );
+
+        /* event */
+        this.dispatchEvent(new CustomEvent("completed", {
+            detail: {
+                fileID: this.fileID,
+                fileName: this.fileName,
+                uploadedBytes: this.uploadedBytes,
+                totalSize: this.fileSize,
+                status: "completed",
+                tempFileID: this.tempFileID
+            }
+        }));
+
         alert(finalRes.data.message || finalRes.data.error);
     }
 }

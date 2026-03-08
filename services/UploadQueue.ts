@@ -1,3 +1,5 @@
+import { setUploadProgress, uploadingProgress } from '@/lib/redux/slice/fileUploadProgressSlice';
+import { store } from '@/lib/redux/store';
 import { v4 as uuidv4 } from 'uuid';
 
 export class UploadQueue {
@@ -25,6 +27,48 @@ export class UploadQueue {
         this.active.set(taskID, task);
 
         console.log('queue', this.waitingQueue, 'activeMap', this.active);
+
+        task.addEventListener("progress", (event: any) => {
+            console.log("progress", event.detail)
+            const payload: uploadingProgress = {
+                fileID: event.detail.fileID,
+                fileName: event.detail.fileName,
+                uploadedBytes: event.detail.uploadedBytes,
+                totalSize: event.detail.totalSize,
+                tempFileID: event.detail.tempFileID,
+                status: 'uploading'
+            }
+            store.dispatch(setUploadProgress(payload))
+        })
+
+        task.addEventListener("completed", (event: any) => {
+            console.log("completed", event.detail)
+            const payload: uploadingProgress = {
+                fileID: event.detail.fileID,
+                fileName: event.detail.fileName,
+                uploadedBytes: event.detail.uploadedBytes,
+                totalSize: event.detail.totalSize,
+                tempFileID: event.detail.tempFileID,
+                status: 'completed'
+            }
+            store.dispatch(setUploadProgress(payload))
+        })
+
+        task.addEventListener("initiate", (event: any) => {
+            console.log("initiate", event.detail)
+            const payload: uploadingProgress = {
+                fileID: event.detail.fileID,
+                fileName: event.detail.fileName,
+                uploadedBytes: event.detail.uploadedBytes,
+                totalSize: event.detail.totalSize,
+                tempFileID: event.detail.tempFileID,
+                status: "hashing"
+            }
+            store.dispatch(setUploadProgress(payload))
+        })
+
+
+
 
         /* 1. start uploading this task */
         /* 2. when uploading finishes remove task from active map */

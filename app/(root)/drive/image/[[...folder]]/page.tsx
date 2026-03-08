@@ -12,6 +12,8 @@ import axios from "axios";
 import FileContainer from "@/components/sidebar/File";
 import { fileMetaData, folder } from "@/types/response";
 import { pasteFile } from '@/functions/file/pasteFile';
+import { uploadManager } from '@/services/UploadManager';
+import ProgressBar from '@/components/progressBar/ProgressBar';
 
 const page = () => {
     const [uploading, setUploading] = useState<boolean>(false);
@@ -53,6 +55,14 @@ const page = () => {
 
     }, [])
 
+    useEffect(() => {
+        const hashmap = uploadManager.queue.active;
+        console.log('uploadmanager', uploadManager)
+        for (const [key, value] of hashmap) {
+            console.log(key, value);
+        }
+    }, [uploadManager])
+
     return (
         <div>
             <FolderCreate parentID={parentId} />
@@ -68,6 +78,8 @@ const page = () => {
             <FolderContainer key={parentId} parentID={parentId} userID={userID} folderResponse={folderResponse} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
             <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse} />
+
+            <ProgressBar />
         </div>
     )
 }

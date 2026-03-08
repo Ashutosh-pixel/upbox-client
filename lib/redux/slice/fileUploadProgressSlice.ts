@@ -1,44 +1,43 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-interface reduxFileUploadProgress {
-    uploadID: string;
-    fileName: string;
-    uploadBytes: number;
-    totalSize: number;
-    isUploading: boolean;
+export interface uploadingProgress {
+    tempFileID: string,
+    fileID: string | null,
+    fileName: string,
+    uploadedBytes: number,
+    totalSize: number,
+    status: "waiting" | "hashing" | "uploading" | "completed"
 }
 
-const initialState: reduxFileUploadProgress[] = [];
+const initialState: uploadingProgress[] = []
 
 const fileUploadProgressSlice = createSlice({
-    name: "fileUploadProgress",
+    name: 'fileUploadProgress',
     initialState,
     reducers: {
-        setFileUploadProgress: (state,action: PayloadAction<reduxFileUploadProgress>) => {
+        setUploadProgress: (state, action: PayloadAction<uploadingProgress>) => {
 
-            const file = state.find(
-                file => file.uploadID === action.payload.uploadID
-            );
+            const file = state.find(progress => progress.tempFileID === action.payload.tempFileID)
 
             if (file) {
-                file.uploadBytes = action.payload.uploadBytes;
+                file.uploadedBytes = action.payload.uploadedBytes;
                 file.totalSize = action.payload.totalSize;
-                file.isUploading = action.payload.isUploading;
+                file.fileID = action.payload.fileID;
+                file.status = action.payload.status;
             }
-            else{
+
+            else {
                 state.push(action.payload);
             }
         },
 
-        clearFileUploadProgress: (state, action: PayloadAction<{uploadID: string}>) => {
-            const file = state.find(file => file.uploadID === action.payload.uploadID);
+        cleanUploadProgress: (state, action: PayloadAction<uploadingProgress>) => {
 
-            if(file){
-                state = state.filter((item) => item.uploadID !== file.uploadID);
-            }
+            state = state.filter(progress => progress.tempFileID !== action.payload.tempFileID);
+
         }
     }
 })
 
-export const {setFileUploadProgress, clearFileUploadProgress} = fileUploadProgressSlice.actions;
+export const { setUploadProgress, cleanUploadProgress } = fileUploadProgressSlice.actions;
 export default fileUploadProgressSlice.reducer;

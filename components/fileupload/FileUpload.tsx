@@ -36,7 +36,6 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
                 const fileName = file ? file.name : "";
                 upload(API_BASE_URL, file, fileName, userID, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate)
             }}>Upload</button>
-            {uploading ? <CircularProgressWithLabel value={progress} /> : null}
             <div>
                 <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>

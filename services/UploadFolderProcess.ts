@@ -4,6 +4,8 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { uploadManager } from "./UploadManager";
 import UploadTask2 from "./UploadTask2";
+import { setUploadProgress, uploadingProgress } from "@/lib/redux/slice/fileUploadProgressSlice";
+import { store } from "@/lib/redux/store";
 
 export class UploadFolderProcess {
 
@@ -92,7 +94,21 @@ export class UploadFolderProcess {
             const folderID = folderDoc._id;
 
             let index = 0;
-            let uploadTask = new UploadTask2(index, this.baseUrl, this.selectedFiles[i].file, this.selectedFiles[i].name, folderID, this.userID, folderID, pathIds, pathNames, storagePath);
+            let tempFileID = uuidv4();
+            let uploadTask = new UploadTask2(index, this.baseUrl, this.selectedFiles[i].file, this.selectedFiles[i].name, folderID, this.userID, folderID, pathIds, pathNames, storagePath, tempFileID);
+
+            let payload: uploadingProgress = {
+                fileID: tempFileID,
+                fileName: this.selectedFiles[i].name,
+                uploadedBytes: 0,
+                totalSize: this.selectedFiles[i].file.size,
+                status: "waiting",
+                tempFileID: tempFileID
+            }
+            console.log("waiting", payload)
+
+            store.dispatch(setUploadProgress(payload))
+
             uploadManager.queue.addTask(uploadTask);
         }
     }
