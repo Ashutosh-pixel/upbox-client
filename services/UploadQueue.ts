@@ -67,6 +67,19 @@ export class UploadQueue {
             store.dispatch(setUploadProgress(payload))
         })
 
+        task.addEventListener("aborted", (event: any) => {
+            console.log("aborted", event.detail)
+            const payload: uploadingProgress = {
+                fileID: event.detail.fileID,
+                fileName: event.detail.fileName,
+                uploadedBytes: event.detail.uploadedBytes,
+                totalSize: event.detail.totalSize,
+                tempFileID: event.detail.tempFileID,
+                status: "aborted"
+            }
+            store.dispatch(setUploadProgress(payload))
+        })
+
 
 
 
@@ -74,7 +87,7 @@ export class UploadQueue {
         /* 2. when uploading finishes remove task from active map */
         /* 3. again call process() to start next task */
 
-        task.uploadFile().finally(() => {
+        task.startUpload().finally(() => {
             this.active.delete(taskID);
             this.process();
         })
