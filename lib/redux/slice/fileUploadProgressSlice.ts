@@ -6,7 +6,7 @@ export interface uploadingProgress {
     fileName: string,
     uploadedBytes: number,
     totalSize: number,
-    status: "waiting" | "hashing" | "uploading" | "completed" | "aborted"
+    status: "waiting" | "hashing" | "uploading" | "completed" | "aborted" | "paused"
 }
 
 const initialState: uploadingProgress[] = []

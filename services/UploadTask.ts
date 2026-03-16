@@ -33,6 +33,7 @@ export default class UploadTask extends EventTarget {
 
     private controller = new AbortController();
     private cancelling = false;
+    private isPaused = false;
 
     /* -------------------- UI reference -------------------- */
 
@@ -143,6 +144,8 @@ export default class UploadTask extends EventTarget {
     private async chunkWorker() {
 
         while (this.index < this.totalParts) {
+
+            if (this.isPaused) return;
 
             const partIndex = this.index;
             this.index++;
@@ -353,5 +356,19 @@ export default class UploadTask extends EventTarget {
                 }
             })
         );
+    }
+
+    /* ============================================================
+       PAUSE UPLOAD
+       ============================================================ */
+
+    public pauseUpload() {
+        if (this.isPaused) return;
+
+        this.isPaused = true;
+
+        this.controller.abort();
+
+        this.emitEvent("paused", "paused");
     }
 }

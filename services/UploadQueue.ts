@@ -80,6 +80,19 @@ export class UploadQueue {
             store.dispatch(setUploadProgress(payload))
         })
 
+        task.addEventListener("paused", (event: any) => {
+            console.log("paused", event.detail)
+            const payload: uploadingProgress = {
+                fileID: event.detail.fileID,
+                fileName: event.detail.fileName,
+                uploadedBytes: event.detail.uploadedBytes,
+                totalSize: event.detail.totalSize,
+                tempFileID: event.detail.tempFileID,
+                status: "paused"
+            }
+            store.dispatch(setUploadProgress(payload))
+        })
+
 
 
 
