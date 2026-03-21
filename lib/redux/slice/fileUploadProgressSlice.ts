@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface uploadingProgress {
     tempFileID: string,
-    fileID: string | null,
+    fileID: string,
     fileName: string,
     uploadedBytes: number,
     totalSize: number,
