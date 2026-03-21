@@ -26,7 +26,7 @@ export default class UploadTask extends EventTarget {
 
     /* -------------------- Metadata from server -------------------- */
 
-    private fileID: string | undefined;
+    public fileID: string | undefined;
     private metadata: any = null;
 
     /* -------------------- Control & Safety -------------------- */
@@ -38,6 +38,10 @@ export default class UploadTask extends EventTarget {
     /* -------------------- UI reference -------------------- */
 
     private tempFileID: string;
+
+    /* -------------------- DB SYNC STATE -------------------- */
+
+    private pendingDBWrites: ({ PartNumber: number; ETag: string } | undefined)[] = [];
 
     /* -------------------- Constructor -------------------- */
 
@@ -177,11 +181,12 @@ export default class UploadTask extends EventTarget {
                     ETag: eTag
                 };
 
-                // Step 3: save chunk metadata to DB
-                await this.saveChunkWithRetry(partInfo);
-
                 // Update state
                 this.uploadParts[partIndex] = partInfo;
+
+                // Step 3: save chunk metadata to DB
+                await this.saveChunkWithRetry(partInfo, partIndex);
+
                 this.uploadedBytes += this.chunks[partIndex].size;
 
                 this.emitEvent("progress", "uploading");
@@ -192,7 +197,7 @@ export default class UploadTask extends EventTarget {
 
                 if (attempt === MAX_RETRY) {
 
-                    if (!this.controller.signal.aborted && !this.cancelling) {
+                    if (!this.controller.signal.aborted && !this.cancelling && !this.isPaused) {
                         this.cancelling = true;
                         await this.abortUpload();
                     }
@@ -264,7 +269,7 @@ export default class UploadTask extends EventTarget {
        SAVE CHUNK WITH RETRY
        ============================================================ */
 
-    private async saveChunkWithRetry(partInfo: { PartNumber: number; ETag: string }) {
+    private async saveChunkWithRetry(partInfo: { PartNumber: number; ETag: string }, partIndex: number) {
 
         const MAX_RETRY = 5;
 
@@ -276,15 +281,19 @@ export default class UploadTask extends EventTarget {
 
             } catch (error) {
 
+                console.log("saveChunkWithRetry");
+
                 if (attempt === MAX_RETRY) {
 
-                    if (!this.cancelling) {
+                    if (!this.cancelling && !this.isPaused) {
                         this.cancelling = true;
                         await this.abortUpload();
                     }
 
                     throw error;
                 }
+
+                this.pendingDBWrites[partIndex] = partInfo;
 
                 await new Promise(r => setTimeout(r, 1000));
             }
@@ -317,7 +326,13 @@ export default class UploadTask extends EventTarget {
        CANCEL UPLOAD
        ============================================================ */
 
-    private async abortUpload() {
+    public async abortUpload() {
+
+        if (this.cancelling) {
+            return;
+        }
+
+        this.cancelling = true;
 
         try {
 
@@ -371,4 +386,142 @@ export default class UploadTask extends EventTarget {
 
         this.emitEvent("paused", "paused");
     }
+
+    /* ============================================================
+    RESUME UPLOAD
+   ============================================================ */
+
+    public async resumeUpload() {
+
+        if (!this.isPaused || this.cancelling) return;
+
+        this.isPaused = false;
+        this.controller = new AbortController();
+
+        this.emitEvent("resumed", "uploading");
+
+        try {
+
+            await this.flushPendingDBWritesWithRetry();
+
+            const queue = this.buildMissingPartsQueue();
+
+            await this.runWorkersWithRetry(queue);
+
+            await this.tryCompleteUpload();
+
+        } catch (error) {
+            console.log("Resume failed", error);
+        }
+    }
+
+    private async flushPendingDBWritesWithRetry() {
+
+        const MAX_RETRY = 3;
+
+        for (let attempt = 1; attempt <= MAX_RETRY; attempt++) {
+
+            let allSuccess = true;
+
+            for (let i = 0; i < this.pendingDBWrites.length; i++) {
+
+                const partInfo = this.pendingDBWrites[i];
+                if (!partInfo) continue;
+
+                try {
+                    await this.saveChunkMetadata(partInfo);
+                    this.pendingDBWrites[i] = undefined;
+                } catch (error) {
+                    allSuccess = false;
+
+                    if (!this.cancelling && !this.isPaused) {
+                        this.cancelling = true;
+                        await this.abortUpload();
+                    }
+                }
+            }
+
+            if (allSuccess) return;
+
+            await new Promise(r => setTimeout(r, 1000));
+        }
+
+        console.log("Some DB writes still pending, will retry later");
+    }
+
+    private buildMissingPartsQueue(): number[] {
+
+        const queue: number[] = [];
+
+        for (let i = 0; i < this.totalParts; i++) {
+            if (!this.uploadParts[i]) {
+                queue.push(i);
+            }
+        }
+
+        return queue;
+    }
+
+    private async runWorkersWithRetry(queue: number[]) {
+
+        const MAX_RETRY = 2;
+
+        for (let attempt = 1; attempt <= MAX_RETRY; attempt++) {
+
+            try {
+
+                const CONCURRENCY = 3;
+                const workers: Promise<void>[] = [];
+
+                for (let i = 0; i < CONCURRENCY; i++) {
+                    workers.push(this.queueWorker(queue));
+                }
+
+                await Promise.all(workers);
+                return;
+
+            } catch (error) {
+
+                if (attempt === MAX_RETRY) {
+                    if (!this.cancelling && !this.isPaused) {
+                        this.cancelling = true;
+                        await this.abortUpload();
+                    }
+                    throw error;
+                }
+
+                console.log("Retrying worker batch...");
+                await new Promise(r => setTimeout(r, 1000));
+            }
+        }
+    }
+
+    private async queueWorker(queue: number[]) {
+
+        while (queue.length > 0 && !this.isPaused) {
+
+            const partIndex = queue.shift();
+            if (partIndex === undefined) return;
+
+            try {
+                await this.uploadSingleChunk(partIndex);
+
+            } catch (error) {
+
+                console.log("Chunk failed, re-queueing", partIndex);
+
+                queue.push(partIndex);
+            }
+        }
+    }
+
+    private async tryCompleteUpload() {
+
+        const uploadedCount = this.uploadParts.filter(Boolean).length;
+
+        if (uploadedCount === this.totalParts) {
+            await this.completeMultipartUpload();
+        }
+    }
+
 }
