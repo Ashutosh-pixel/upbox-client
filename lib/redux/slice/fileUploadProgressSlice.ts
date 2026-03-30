@@ -15,19 +15,15 @@ const fileUploadProgressSlice = createSlice({
     name: 'fileUploadProgress',
     initialState,
     reducers: {
-        setUploadProgress: (state, action: PayloadAction<uploadingProgress>) => {
+        setUploadProgress: (state, action: PayloadAction<Partial<uploadingProgress> & { tempFileID: string }>) => {
+            const index = state.findIndex(p => p.tempFileID === action.payload.tempFileID);
 
-            const file = state.find(progress => progress.tempFileID === action.payload.tempFileID)
-
-            if (file) {
-                file.uploadedBytes = action.payload.uploadedBytes;
-                file.totalSize = action.payload.totalSize;
-                file.fileID = action.payload.fileID;
-                file.status = action.payload.status;
-            }
-
-            else {
-                state.push(action.payload);
+            if (index !== -1) {
+                // MERGE the existing state with whatever new fields are in the payload
+                state[index] = { ...state[index], ...action.payload };
+            } else {
+                // If it's a brand new file, we need the full object (cast as any to satisfy TS)
+                state.push(action.payload as uploadingProgress);
             }
         },
 

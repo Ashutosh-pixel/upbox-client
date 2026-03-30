@@ -23,6 +23,7 @@ export default class UploadTask extends EventTarget {
     private index: number;
     private uploadedBytes: number = 0;
     private uploadParts: { PartNumber: number; ETag: string }[] = [];
+    public status: string = "waiting";
 
     /* -------------------- Metadata from server -------------------- */
 
@@ -358,6 +359,8 @@ export default class UploadTask extends EventTarget {
        ============================================================ */
 
     private emitEvent(event: string, status: string) {
+
+        this.status = status;
 
         this.dispatchEvent(
             new CustomEvent(event, {

@@ -21,10 +21,9 @@ export async function upload(baseUrl: string, file: File | null, file_Name: stri
     status: "waiting",
     tempFileID: tempFileID
   }
-  console.log("waiting", payload)
 
   store.dispatch(setUploadProgress(payload))
 
 
-  uploadManager.queue.addTask(uploadTask);
+  uploadManager.queue.addTask(uploadTask)
 }

@@ -15,9 +15,9 @@ const ProgressBar = () => {
             return <div key={progress.fileID}>
                 <div>{progress.fileName}</div>
                 {progress.status !== 'completed' && <div><CircularProgressWithLabel value={progress?.totalSize ? Math.round((progress.uploadedBytes / progress.totalSize) * 100) : 0} /></div>}
-                <button onClick={() => pause(progress.fileID)}>PAUSE</button>
-                <button onClick={() => resume(progress.fileID)}>RESUME</button>
-                <button onClick={() => cancel(progress.fileID)}>CANCEL</button>
+                <button className="cursor-pointer" onClick={() => pause(progress.tempFileID)}>PAUSE</button>
+                <button className="cursor-pointer" onClick={() => resume(progress.tempFileID)}>RESUME</button>
+                <button className="cursor-pointer" onClick={() => cancel(progress.tempFileID)}>CANCEL</button>
             </div >
         })
     )

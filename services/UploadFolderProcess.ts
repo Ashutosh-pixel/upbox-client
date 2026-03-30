@@ -105,7 +105,6 @@ export class UploadFolderProcess {
                 status: "waiting",
                 tempFileID: tempFileID
             }
-            console.log("waiting", payload)
 
             store.dispatch(setUploadProgress(payload))
 

@@ -1,9 +1,5 @@
 import { uploadManager } from "@/services/UploadManager";
 
-export function cancel(fileID: string) {
-    for (const file of uploadManager.queue.active) {
-        if (file[1].fileID === fileID) {
-            file[1].abortUpload();
-        }
-    }
+export function cancel(tempFileID: string) {
+    uploadManager.queue.cancelTask(tempFileID);
 }
