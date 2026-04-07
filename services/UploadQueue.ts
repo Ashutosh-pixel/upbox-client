@@ -41,7 +41,7 @@ export class UploadQueue {
         this.active.set(task.taskID, task);
 
         // Choose the correct method based on state
-        const action = task.isPaused ? task.resumeUpload() : task.startUpload();
+        const action = task.isPaused ? task.resumeUpload() : task.startUpload(task);
 
         // The Critical Fix: Resumed tasks MUST call process() when finished
         action

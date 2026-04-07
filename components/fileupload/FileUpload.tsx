@@ -5,6 +5,9 @@ import { CircularProgressWithLabel } from "./CircularProgressWithLabel";
 import { upload } from "@/functions/file/singleFileUpload";
 import { resume } from "@/functions/file/resumeSingleFile";
 import FileDuplicateWindowPop from "../duplicate/FileDuplicateWindowPop";
+import { uploadManager } from "@/services/UploadManager";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/redux/store";
 
 type fileUploadProp = {
     parentID: string | null
@@ -20,10 +23,17 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
     const [fileName, setFileName] = useState<string>('');
     const [userID] = useState<string>("681cbca24c31bfa9b698a961");
 
+    const renameArray = useSelector((state: RootState) => state.renameArray);
+    const dispatch = useDispatch();
+
     // check duplicate upload
     const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
 
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+
+    useEffect(() => {
+        console.log('renameArray', renameArray);
+    }, [renameArray])
 
     return (
         <div>
@@ -34,13 +44,13 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
             }} />
             <button onClick={() => {
                 const fileName = file ? file.name : "";
-                upload(API_BASE_URL, file, fileName, userID, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate)
+                upload(API_BASE_URL, file, fileName, userID, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate, dispatch)
             }}>Upload</button>
             <div>
                 <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>
 
-            {isDuplicate && <FileDuplicateWindowPop userID={userID} parentID={parentID} file={file} isDuplicate={isDuplicate} setIsDuplicate={setIsDuplicate} setUploading={setUploading} setProgress={setProgress} />}
+            {renameArray && renameArray.length && <FileDuplicateWindowPop renameArray={renameArray} userID={userID} baseUrl={API_BASE_URL} />}
         </div>
     )
 }

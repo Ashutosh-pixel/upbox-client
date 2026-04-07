@@ -1,5 +1,10 @@
 import { createChunks } from "@/lib/utils";
 import axios from "axios";
+import { uploadManager } from "./UploadManager";
+import { Dispatch } from "react";
+import { UnknownAction } from "@reduxjs/toolkit";
+import { rename, setRenamedArray } from "@/lib/redux/slice/renameArraySlice";
+import { v4 as uuidv4 } from 'uuid';
 
 export default class UploadTask extends EventTarget {
 
@@ -46,6 +51,8 @@ export default class UploadTask extends EventTarget {
 
     /* -------------------- Constructor -------------------- */
 
+    private dispatch: Dispatch<UnknownAction>;
+
     constructor(
         index: number,
         baseUrl: string,
@@ -53,7 +60,8 @@ export default class UploadTask extends EventTarget {
         fileName: string,
         userID: string,
         parentID: string | null,
-        tempFileID: string
+        tempFileID: string,
+        dispatch: Dispatch<UnknownAction>
     ) {
         super();
 
@@ -70,13 +78,14 @@ export default class UploadTask extends EventTarget {
 
         this.totalParts = totalParts;
         this.chunks = chunks;
+        this.dispatch = dispatch;
     }
 
     /* ============================================================
        MAIN UPLOAD ENTRY
        ============================================================ */
 
-    public async startUpload() {
+    public async startUpload(task: any) {
 
         try {
 
@@ -102,8 +111,24 @@ export default class UploadTask extends EventTarget {
                 await this.completeMultipartUpload();
             }
 
-        } catch (error) {
+        } catch (error: any) {
             console.log("Upload failed", error);
+            if (error.response?.status === 409) {
+                if (error.response?.data?.errorCode === "DUPLICATE_FILE") {
+                    console.log('duplicate');
+                    uploadManager.globalDuplicateMap.set(this.tempFileID, task);
+
+                    const tempID = uuidv4();
+                    const duplicateFiles: rename[] = [{
+                        _id: tempID,
+                        tempID: this.tempFileID,
+                        filename: this.fileName,
+                        parentID: this.parentID,
+                        type: this.file.type
+                    }]
+                    this.dispatch(setRenamedArray(duplicateFiles));
+                }
+            }
         }
     }
 

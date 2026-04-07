@@ -15,7 +15,7 @@ import { pasteFile } from '@/functions/file/pasteFile';
 import { uploadManager } from '@/services/UploadManager';
 import ProgressBar from '@/components/progressBar/ProgressBar';
 
-const page = () => {
+const Page = () => {
     const [uploading, setUploading] = useState<boolean>(false);
 
     // files and folders creates and uploads
@@ -61,7 +61,7 @@ const page = () => {
         for (const [key, value] of hashmap) {
             console.log(key, value);
         }
-    }, [uploadManager])
+    }, [])
 
     return (
         <div>
@@ -84,4 +84,4 @@ const page = () => {
     )
 }
 
-export default page;
+export default Page;
