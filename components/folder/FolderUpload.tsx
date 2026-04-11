@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { processFileUpload } from "@/functions/folder/folderUpload";
 import { handleUploadFolders } from "@/functions/folder/uploadFolders";
 import FilesDuplicateWindowPop from "../duplicate/FilesDuplicateWindowPop";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/redux/store";
+import FileDuplicateWindowPop from "../duplicate/FileDuplicateWindowPop";
 
 type SelectedFolderProps = {
     parentID: string | null,
@@ -22,6 +25,8 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID, userID }) => {
     const [duplicateFilesResponse, setDuplicateFilesResponse] = useState<any>([]);
     const [folderMap, setFolderMap] = useState<any>(null);
 
+    const renameArray = useSelector((state: RootState) => state.renameArray);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         console.log(selectedFiles, selectedFolders, duplicateFilesResponse, folderMap);
@@ -29,10 +34,10 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID, userID }) => {
 
     return <div>
         <input type="file" webkitdirectory="true" onChange={() => processFileUpload(event, parentID, setSelectedFiles, setSelectedFolders)} ref={fileInputRef} />
-        <button onClick={() => handleUploadFolders(API_BASE_URL, fileInputRef, userID, parentID, selectedFiles, selectedFolders, setUploadId, setFileName, setUploading, setDuplicateFilesResponse, setFolderMap)}>Upload Folder</button>
+        <button onClick={() => handleUploadFolders(API_BASE_URL, fileInputRef, userID, parentID, selectedFiles, selectedFolders, setUploadId, setFileName, setUploading, setDuplicateFilesResponse, setFolderMap, dispatch)}>Upload Folder</button>
 
         {/* duplicate popup window */}
-        {duplicateFilesResponse.length && <FilesDuplicateWindowPop userID={userID} duplicateFilesResponse={duplicateFilesResponse} folderMap={folderMap} selectedFiles={selectedFiles} setDuplicateFilesResponse={setDuplicateFilesResponse} />}
+        {renameArray && renameArray.length && <FileDuplicateWindowPop renameArray={renameArray} userID={userID} baseUrl={API_BASE_URL} />}
     </div>
 }
 

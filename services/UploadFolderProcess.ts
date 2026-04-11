@@ -6,6 +6,9 @@ import { uploadManager } from "./UploadManager";
 import UploadTask2 from "./UploadTask2";
 import { setUploadProgress, uploadingProgress } from "@/lib/redux/slice/fileUploadProgressSlice";
 import { store } from "@/lib/redux/store";
+import { setRenamedArray } from "@/lib/redux/slice/renameArraySlice";
+import { Dispatch } from "react";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 export class UploadFolderProcess {
 
@@ -16,14 +19,12 @@ export class UploadFolderProcess {
     private files: any = [];
     private selectedFiles: selectedFiles[] = [];
     private selectedFolders: selectedFolders[] = [];
+    private dispatch: Dispatch<UnknownAction>;
 
 
-    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, userID: string, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[]) {
+    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, userID: string, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[], dispatch: Dispatch<UnknownAction>) {
         if (fileInputRef.current?.value) {
             fileInputRef.current.value = "";
-        } else {
-            console.log("select files");
-            return;
         }
 
         this.baseUrl = baseUrl;
@@ -31,6 +32,7 @@ export class UploadFolderProcess {
         this.parentID = parentID;
         this.selectedFiles = selectedFiles;
         this.selectedFolders = selectedFolders;
+        this.dispatch = dispatch;
 
 
         this.folderCreateOnBackend();
@@ -56,15 +58,20 @@ export class UploadFolderProcess {
             const filename = this.selectedFiles[i].name;
             const parentID = folderDoc._id;
 
+            const tempFileID = uuidv4();
+
             this.files.push(
                 {
+                    tempFileID: tempFileID,
+                    tempID: tempFileID,
                     filename,
-                    parentID
+                    parentID,
+                    type: this.selectedFiles[i].type
                 }
             );
         }
 
-        this.CheckFileDuplicate();
+        this.processFiles();
     }
 
     private async CheckFileDuplicate() {
@@ -72,43 +79,76 @@ export class UploadFolderProcess {
         const files = this.files;
 
         const filesRes = await axios.post(`${this.baseUrl}/folder/folderupload/bulkfilescheck`, { userID, files });
-        const duplicateFiles = filesRes.data.output.duplicate;
+        const { duplicate, nonDuplicate } = await filesRes.data;
 
-        /*         setDuplicateFilesResponse(duplicateFiles);
-                setFolderMap(folderMap) */
-
-        if (duplicateFiles.length > 0) {
-            return;
-        }
-
-        this.processFiles();
+        console.log("dup", filesRes.data);
+        return { duplicate, nonDuplicate };
 
     }
 
     private async processFiles() {
+
+        const allTasks = new Map();
+
         for (let i = 0; i < this.selectedFiles.length; i++) {
+
+            const fileMeta = this.files[i];
             const folderDoc = this.folderMap[this.selectedFiles[i].parent];
-            const storagePath = `${folderDoc.storagePath}${uuidv4()}-${this.selectedFiles[i].name}`;
+
+            const storagePath = `${folderDoc.storagePath}${uuidv4()}-${fileMeta.filename}`;
             const pathIds = [...folderDoc.pathIds, folderDoc._id];
             const pathNames = folderDoc.pathNames;
-            const folderID = folderDoc._id;
 
-            let index = 0;
-            let tempFileID = uuidv4();
-            let uploadTask = new UploadTask2(index, this.baseUrl, this.selectedFiles[i].file, this.selectedFiles[i].name, folderID, this.userID, folderID, pathIds, pathNames, storagePath, tempFileID);
+            const tempFileID = fileMeta.tempFileID;
 
-            let payload: uploadingProgress = {
-                fileID: tempFileID,
-                fileName: this.selectedFiles[i].name,
+            const uploadTask = new UploadTask2(
+                0,
+                this.baseUrl,
+                this.selectedFiles[i].file,
+                fileMeta.filename,
+                folderDoc._id,
+                this.userID,
+                folderDoc._id,
+                pathIds,
+                pathNames,
+                storagePath,
+                tempFileID,
+                this.dispatch
+            );
+
+            allTasks.set(tempFileID, uploadTask);
+        }
+
+        const { duplicate, nonDuplicate } = await this.CheckFileDuplicate();
+
+        // Handle duplicates
+        for (const dup of duplicate) {
+            const task = allTasks.get(dup.tempFileID);
+            if (!task) continue;
+
+            uploadManager.globalDuplicateMap.set(dup.tempFileID, task);
+        }
+
+        this.dispatch(setRenamedArray(duplicate));
+
+        // Handle non-duplicates
+        for (const nonDup of nonDuplicate) {
+
+            const task = allTasks.get(nonDup.tempFileID);
+            if (!task) continue;
+
+            const payload: uploadingProgress = {
+                fileID: nonDup.tempFileID,
+                fileName: nonDup.filename,
                 uploadedBytes: 0,
-                totalSize: this.selectedFiles[i].file.size,
+                totalSize: task.file.size,
                 status: "waiting",
-                tempFileID: tempFileID
-            }
+                tempFileID: nonDup.tempFileID
+            };
 
-            store.dispatch(setUploadProgress(payload))
+            store.dispatch(setUploadProgress(payload));
 
-            uploadManager.queue.addTask(uploadTask);
+            uploadManager.queue.addTask(task);
         }
     }
 }
