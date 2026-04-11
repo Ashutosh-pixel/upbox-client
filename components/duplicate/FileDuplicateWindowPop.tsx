@@ -1,5 +1,6 @@
 import { fileUpload } from '@/functions/file/fileUpload';
 import { RenameDuplicateFile } from '@/functions/file/renameDuplicateFile';
+import { skipDuplicateFile } from '@/functions/file/skipFile';
 import { rename } from '@/lib/redux/slice/renameArraySlice';
 import { RootState } from '@/lib/redux/store';
 import { uploadManager } from '@/services/UploadManager';
@@ -30,7 +31,7 @@ const FileDuplicateWindowPop: React.FC<duplicateProp> = ({ renameArray, userID, 
                                 RenameDuplicateFile(baseUrl, duplicateFile, userID, dispatch);
                                 console.log('click')
                             }}>Rename</button>
-                            <button>Skip</button>
+                            <button onClick={() => skipDuplicateFile(dispatch, duplicateFile)}>Skip</button>
                         </div>
                     </div>
                 )
