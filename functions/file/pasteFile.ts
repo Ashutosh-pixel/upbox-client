@@ -1,7 +1,7 @@
 import { Setter } from "@/types/global";
 import axios from "axios";
 
-export async function pasteFile(baseUrl: string, clipboard: any, uploading: boolean, parentId: string|null, setUploading: Setter<boolean>) {
+export async function pasteFile(baseUrl: string, clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>) {
   if (!clipboard || uploading) return;
 
   try {
@@ -9,6 +9,7 @@ export async function pasteFile(baseUrl: string, clipboard: any, uploading: bool
     const name = clipboard.name;
     const parentID = parentId;
     const userID = clipboard.userID;
+    const id = clipboard.id;
     let originalStoragePath;
     let type;
     let size;
@@ -19,7 +20,7 @@ export async function pasteFile(baseUrl: string, clipboard: any, uploading: bool
       size = clipboard.size;
       const response = await axios.post(
         `${baseUrl}/user/pastefile`,
-        { name, parentID, userID, originalStoragePath, type, size },
+        { fileID: id, parentID, userID },
       );
       alert(response.data.message || response.data.error);
     } else if (clipboard.kind === "folder") {
@@ -31,8 +32,14 @@ export async function pasteFile(baseUrl: string, clipboard: any, uploading: bool
       );
       alert(response.data.message || response.data.error);
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log("error while uploading", error);
+    if (error.response?.status === 409) {
+      if (error.response?.data?.errorCode === "DUPLICATE_FILE") {
+        console.log('duplicate');
+        alert("File Already Exists in the Folder")
+      }
+    }
   } finally {
     setUploading(false);
   }
