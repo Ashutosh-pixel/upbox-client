@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import axios from "axios";
 import FileContainer from "@/components/sidebar/File";
-import { fileMetaData, folder } from "@/types/response";
+import { fileMetaData, folder, renameResponse } from "@/types/response";
 import { pasteFile } from '@/functions/file/pasteFile';
 import { uploadManager } from '@/services/UploadManager';
 import ProgressBar from '@/components/progressBar/ProgressBar';
@@ -21,6 +21,7 @@ const Page = () => {
     // files and folders creates and uploads
     const [fileResponse, setFileResponse] = useState<fileMetaData[]>([]);
     const [folderResponse, setFolderResponse] = useState<folder[]>([]);
+    const [fileRenameResponse, setFileRenameResponse] = useState<renameResponse[]>([]);
 
 
     const params = useParams();
@@ -51,6 +52,11 @@ const Page = () => {
             setFolderResponse(response);
         })
 
+        eventsource.addEventListener('fileRenamed', (event) => {
+            const response = JSON.parse(event.data);
+            setFileRenameResponse(response);
+        })
+
         return () => eventsource.close();
 
     }, [])
@@ -77,7 +83,7 @@ const Page = () => {
 
             <FolderContainer key={parentId} parentID={parentId} userID={userID} folderResponse={folderResponse} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
-            <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse} />
+            <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse} fileRenameResponse={fileRenameResponse} />
 
             <ProgressBar />
         </div>

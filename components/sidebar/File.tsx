@@ -1,4 +1,4 @@
-import { fileMetaData } from "@/types/response";
+import { fileMetaData, renameResponse } from "@/types/response";
 import React, { useEffect, useRef, useState } from "react";
 import FileCard from "../file/FileCard";
 import { fetchFiles } from "@/functions/file/fetchFolderFiles";
@@ -7,9 +7,10 @@ interface fileProp {
   userID: string;
   parentID: string | null;
   fileResponse: fileMetaData[];
+  fileRenameResponse: renameResponse[]
 }
 
-const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse }) => {
+const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse, fileRenameResponse }) => {
   const [files, setFiles] = useState<fileMetaData[]>([]);
   const [fileLoading, setFileLoading] = useState<boolean>(true);
   const [cursor, setCursor] = useState<string | null>('');
@@ -27,7 +28,21 @@ const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse }) =
       })
       setFiles((prev) => [fileResponse[0], ...prev]);
     }
-  }, [fileResponse])
+  }, [fileResponse, parentID])
+
+  useEffect(() => {
+    const rename = fileRenameResponse[0];
+
+    if (rename?._id && rename.parentID === parentID) {
+      setFiles((prev) =>
+        prev.map((file) =>
+          file._id === rename._id
+            ? { ...file, filename: rename.filename }
+            : file
+        )
+      );
+    }
+  }, [fileRenameResponse, parentID]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {

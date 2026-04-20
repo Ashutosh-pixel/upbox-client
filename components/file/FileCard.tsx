@@ -4,6 +4,7 @@ import { dateFormat } from '@/lib/utils'
 import { fileMetaData } from '@/types/response'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from "react-redux";
+import Rename from '../rename/Rename';
 
 interface filemetadataProp {
     fileMetadata: fileMetaData
@@ -56,12 +57,13 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
             </div>
             <div className='mt-2'>
                 <div>Created on {dateFormat(fileMetadata.uploadTime)}</div>
-                <div className='break-words whitespace-normal'>{renderName(fileMetadata.type)}-{fileMetadata.filename}</div>
+                <div className='wrap-break-word whitespace-normal'>{renderName(fileMetadata.type)}-{fileMetadata.filename}</div>
             </div>
             <div className='mt-2'>You opened {dateFormat(fileMetadata.updatedAt)}</div>
             <div>
                 <button onClick={() => copyFile(fileMetadata, dispatch)}>copy</button>
             </div>
+            <Rename fileID={fileMetadata._id} />
         </div>
     )
 }

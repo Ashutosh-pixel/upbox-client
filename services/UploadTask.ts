@@ -156,6 +156,8 @@ export default class UploadTask extends EventTarget {
 
             this.fileID = res.data.fileID;
 
+            console.log("RES", res);
+
             this.metadata = {
                 uploadId: res.data.uploadId,
                 storagePath: res.data.storagePath
@@ -242,8 +244,23 @@ export default class UploadTask extends EventTarget {
 
     private async getPresignedUrl(partIndex: number): Promise<string> {
 
-        const res = await fetch(
+        console.log("this.metadata", this.metadata);
+
+        /* const res = await fetch(
             `${this.baseUrl}/user/file/upload/url?fileName=${this.fileName}&uploadId=${this.metadata.uploadId}&storagePath=${this.metadata.storagePath}&partNumber=${partIndex + 1}`,
+            { signal: this.controller.signal }
+        ); */
+
+        const params = new URLSearchParams({
+            fileName: this.fileName,
+            uploadId: this.metadata.uploadId,
+            storagePath: this.metadata.storagePath,
+            partNumber: String(partIndex + 1),
+        });
+
+
+        const res = await fetch(
+            `${this.baseUrl}/user/file/upload/url?${params.toString()}`,
             { signal: this.controller.signal }
         );
 
