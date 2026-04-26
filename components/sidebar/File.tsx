@@ -4,19 +4,17 @@ import FileCard from "../file/FileCard";
 import { fetchFiles } from "@/functions/file/fetchFolderFiles";
 
 interface fileProp {
-  userID: string;
   parentID: string | null;
   fileResponse: fileMetaData[];
   fileRenameResponse: renameResponse[]
 }
 
-const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse, fileRenameResponse }) => {
+const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameResponse }) => {
   const [files, setFiles] = useState<fileMetaData[]>([]);
   const [fileLoading, setFileLoading] = useState<boolean>(true);
   const [cursor, setCursor] = useState<string | null>('');
   const [limit, setLimit] = useState<number>(3);
   const loadRef = useRef(null);
-  const url: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const FileContainer: React.FC<fileProp> = ({ userID, parentID, fileResponse, fil
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        if (userID && cursor !== null) fetchFiles(url, parentID, userID, setFiles, setFileLoading, setCursor, cursor, limit);
+        if (cursor !== null) fetchFiles(parentID, setFiles, setFileLoading, setCursor, cursor, limit);
       }
     }, { threshold: 0.5 }
     );

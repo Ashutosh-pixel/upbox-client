@@ -21,15 +21,14 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
     const [uploadId, setUploadId] = useState<string>('');
     const [fileID, setFileID] = useState<string>('');
     const [fileName, setFileName] = useState<string>('');
-    const [userID] = useState<string>("681cbca24c31bfa9b698a961");
 
     const renameArray = useSelector((state: RootState) => state.renameArray);
     const dispatch = useDispatch();
 
+    const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+
     // check duplicate upload
     const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
-
-    const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
         console.log('renameArray', renameArray);
@@ -44,13 +43,13 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID }) => {
             }} />
             <button onClick={() => {
                 const fileName = file ? file.name : "";
-                upload(API_BASE_URL, file, fileName, userID, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate, dispatch)
+                upload(API_BASE_URL, file, fileName, parentID, setUploading, setFileID, setUploadId, setFileName, setIsDuplicate, dispatch)
             }}>Upload</button>
             <div>
-                <button onClick={() => resume(API_BASE_URL, uploadId, fileName, userID, fileID, file, setFileName, setUploadId)}>Resume</button>
+                <button onClick={() => resume(uploadId, fileName, fileID, file, setFileName, setUploadId)}>Resume</button>
             </div>
 
-            {renameArray && renameArray.length && <FileDuplicateWindowPop renameArray={renameArray} userID={userID} baseUrl={API_BASE_URL} />}
+            {renameArray && renameArray.length && <FileDuplicateWindowPop renameArray={renameArray} />}
         </div>
     )
 }

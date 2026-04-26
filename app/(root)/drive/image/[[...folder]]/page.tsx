@@ -3,17 +3,16 @@ import FileUpload from '@/components/fileupload/FileUpload';
 import FolderContainer from '@/components/folder/FolderContainer';
 import FolderCreate from '@/components/folder/FolderCreate';
 import FolderUpload from '@/components/folder/FolderUpload';
-import Image from '@/components/sidebar/Image'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
-import axios from "axios";
 import FileContainer from "@/components/sidebar/File";
 import { fileMetaData, folder, renameResponse } from "@/types/response";
 import { pasteFile } from '@/functions/file/pasteFile';
 import { uploadManager } from '@/services/UploadManager';
 import ProgressBar from '@/components/progressBar/ProgressBar';
+import { getAccessToken } from '@/lib/token';
 
 const Page = () => {
     const [uploading, setUploading] = useState<boolean>(false);
@@ -27,7 +26,6 @@ const Page = () => {
     const params = useParams();
     const folderPath = Array.isArray(params.folder) ? params.folder : []
 
-    const userID = "681cbca24c31bfa9b698a961";
     const parentId = folderPath.length > 0 ? folderPath[folderPath.length - 1] : null;
 
     const clipboard: any = useSelector((state: RootState) => state.clipboard);
@@ -35,7 +33,7 @@ const Page = () => {
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
-        const eventsource = new EventSource(`http://localhost:3001/connection/${userID}`);
+        const eventsource = new EventSource(`${API_BASE_URL}/connection?token=${getAccessToken()}`);
 
         eventsource.addEventListener('fileUploaded', (event) => {
             const response = JSON.parse(event.data);
@@ -76,14 +74,14 @@ const Page = () => {
             {/* Button */}
             <FileUpload parentID={parentId} />
 
-            <div><button className="cursor-pointer" onClick={() => pasteFile(API_BASE_URL, clipboard, uploading, parentId, setUploading)}>Paste</button></div>
+            <div><button className="cursor-pointer" onClick={() => pasteFile(clipboard, uploading, parentId, setUploading)}>Paste</button></div>
 
             {/* Button */}
-            <FolderUpload parentID={parentId} userID={userID} />
+            <FolderUpload parentID={parentId} />
 
-            <FolderContainer key={parentId} parentID={parentId} userID={userID} folderResponse={folderResponse} />
+            <FolderContainer key={parentId} parentID={parentId} folderResponse={folderResponse} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}
-            <FileContainer userID={userID} parentID={parentId} fileResponse={fileResponse} fileRenameResponse={fileRenameResponse} />
+            <FileContainer parentID={parentId} fileResponse={fileResponse} fileRenameResponse={fileRenameResponse} />
 
             <ProgressBar />
         </div>

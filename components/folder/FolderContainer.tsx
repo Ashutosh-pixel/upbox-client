@@ -2,34 +2,32 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { folder } from '@/types/response';
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/lib/redux/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/lib/redux/store";
 import { fetchFolders } from '@/functions/folder/fetchFolders';
 import { copyFolder } from './copyFolder';
 
 type FolderProps = {
     parentID: string | null,
-    userID: string,
     folderResponse: folder[]
 }
-const FolderContainer: React.FC<FolderProps> = ({ userID, parentID, folderResponse }) => {
+const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse }) => {
 
     const [folders, setFolders] = useState<folder[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
     const dispatch = useDispatch<AppDispatch>();
-    const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
     // const newFolders: any[] = useSelector((state: RootState) => state.sse.folders);
 
     useEffect(() => {
-        if(userID) fetchFolders(API_BASE_URL, userID, parentID, setFolders, setLoading);
-    }, [parentID, userID])
+        fetchFolders(parentID, setFolders, setLoading);
+    }, [parentID])
 
     useEffect(() => {
-        if(folderResponse[0]?._id && folderResponse[0]?.parentID === parentID){
+        if (folderResponse[0]?._id && folderResponse[0]?.parentID === parentID) {
             folders.map((folder) => {
-                if(folderResponse[0]?._id === folder._id){
+                if (folderResponse[0]?._id === folder._id) {
                     return;
                 }
             })

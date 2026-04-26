@@ -1,11 +1,12 @@
-import axios from "axios";
+import { api } from "@/lib/api";
 
-export async function folderHandler(url: string, name: string, parentID: string|null, userID: string) {
+export async function folderHandler(name: string, parentID: string | null) {
   try {
-    console.log('base', url)
-    const output = await axios.post(
-      `${url}/folder/createfolder`,
-      { name, parentID, userID, folderPath: name },
+    if (!name.trim()) return;
+
+    const output = await api.post(
+      `/folder/createfolder`,
+      { name, parentID, folderPath: name },
     );
     console.log("status", output.data.message);
     alert(output.data.message || output.data.error);

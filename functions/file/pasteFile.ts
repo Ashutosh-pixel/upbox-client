@@ -1,7 +1,8 @@
+import { api } from "@/lib/api";
 import { Setter } from "@/types/global";
 import axios from "axios";
 
-export async function pasteFile(baseUrl: string, clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>) {
+export async function pasteFile(clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>) {
   if (!clipboard || uploading) return;
 
   try {
@@ -18,16 +19,16 @@ export async function pasteFile(baseUrl: string, clipboard: any, uploading: bool
       originalStoragePath = clipboard.originalStoragePath;
       type = clipboard.type;
       size = clipboard.size;
-      const response = await axios.post(
-        `${baseUrl}/user/pastefile`,
+      const response = await api.post(
+        `/user/pastefile`,
         { fileID: id, parentID, userID },
       );
       alert(response.data.message || response.data.error);
     } else if (clipboard.kind === "folder") {
       const id = clipboard.id;
       const parentID = parentId;
-      const response = await axios.post(
-        `${baseUrl}/folder/pastefolder`,
+      const response = await api.post(
+        `/folder/pastefolder`,
         { id, name, parentID, userID },
       );
       alert(response.data.message || response.data.error);

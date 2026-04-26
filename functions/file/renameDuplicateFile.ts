@@ -1,3 +1,4 @@
+import { api } from "@/lib/api";
 import { setUploadProgress, uploadingProgress } from "@/lib/redux/slice/fileUploadProgressSlice";
 import { clearRenamedArray, rename } from "@/lib/redux/slice/renameArraySlice";
 import { store } from "@/lib/redux/store";
@@ -10,9 +11,7 @@ import { Dispatch } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function RenameDuplicateFile(
-    baseUrl: string,
     duplicateFile: rename,
-    userID: string,
     dispatch: Dispatch<UnknownAction>
 ) {
 
@@ -26,11 +25,10 @@ export async function RenameDuplicateFile(
         const duplicateFileQuery = {
             filename: duplicateFile.filename,
             parentID: duplicateFile.parentID,
-            userID,
             type: duplicateFile.type
         };
 
-        const initRes = await axios.post(`${baseUrl}/user/file/rename`, duplicateFileQuery);
+        const initRes = await api.post(`/user/file/rename`, duplicateFileQuery);
 
         const newName = initRes.data.newName;
 

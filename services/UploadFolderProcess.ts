@@ -9,11 +9,11 @@ import { store } from "@/lib/redux/store";
 import { setRenamedArray } from "@/lib/redux/slice/renameArraySlice";
 import { Dispatch } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
+import { api } from "@/lib/api";
 
 export class UploadFolderProcess {
 
     private baseUrl: string = '';
-    private userID: string = '';
     private parentID: string | null = null;
     private folderMap: any;
     private files: any = [];
@@ -22,13 +22,12 @@ export class UploadFolderProcess {
     private dispatch: Dispatch<UnknownAction>;
 
 
-    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, userID: string, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[], dispatch: Dispatch<UnknownAction>) {
+    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[], dispatch: Dispatch<UnknownAction>) {
         if (fileInputRef.current?.value) {
             fileInputRef.current.value = "";
         }
 
         this.baseUrl = baseUrl;
-        this.userID = userID;
         this.parentID = parentID;
         this.selectedFiles = selectedFiles;
         this.selectedFolders = selectedFolders;
@@ -39,12 +38,11 @@ export class UploadFolderProcess {
     }
 
     private async folderCreateOnBackend() {
-        const userID = this.userID;
         const parentID = this.parentID;
 
-        const output = await axios.post(
-            `${this.baseUrl}/folder/uploadfolder`,
-            { userID, parentID, folders: this.selectedFolders, fileMeta: this.selectedFiles },
+        const output = await api.post(
+            `/folder/uploadfolder`,
+            { parentID, folders: this.selectedFolders, fileMeta: this.selectedFiles },
         );
 
         this.folderMap = output.data.folderMap;
@@ -75,10 +73,9 @@ export class UploadFolderProcess {
     }
 
     private async CheckFileDuplicate() {
-        const userID = this.userID;
         const files = this.files;
 
-        const filesRes = await axios.post(`${this.baseUrl}/folder/folderupload/bulkfilescheck`, { userID, files });
+        const filesRes = await api.post(`/folder/folderupload/bulkfilescheck`, { files });
         const { duplicate, nonDuplicate } = await filesRes.data;
 
         console.log("dup", filesRes.data);
@@ -107,7 +104,6 @@ export class UploadFolderProcess {
                 this.selectedFiles[i].file,
                 fileMeta.filename,
                 folderDoc._id,
-                this.userID,
                 folderDoc._id,
                 pathIds,
                 pathNames,

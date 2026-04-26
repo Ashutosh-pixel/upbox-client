@@ -9,19 +9,17 @@ import { uploadDuplicateCheck } from "@/services/UploadDuplicateCheck";
 import { Dispatch } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
 
-export async function upload(baseUrl: string, file: File | null, file_Name: string, userID: string, parentID: string | null, setUploading: Setter<boolean>, setFileID: Setter<string>, setUploadId: Setter<string>, setFileName: Setter<string>, setIsDuplicate: Setter<boolean>, dispatch: Dispatch<UnknownAction>) {
+export async function upload(baseUrl: string, file: File | null, file_Name: string, parentID: string | null, setUploading: Setter<boolean>, setFileID: Setter<string>, setUploadId: Setter<string>, setFileName: Setter<string>, setIsDuplicate: Setter<boolean>, dispatch: Dispatch<UnknownAction>) {
   if (!file) return;
 
 
   let index = 0;
   const tempFileID = uuidv4();
-  let uploadTask = new UploadTask(index, baseUrl, file, file_Name, userID, parentID, tempFileID, dispatch);
+  let uploadTask = new UploadTask(index, baseUrl, file, file_Name, parentID, tempFileID, dispatch);
 
   // check duplicate WITH task
   const isDuplicate = await uploadDuplicateCheck(
-    baseUrl,
     file,
-    userID,
     parentID,
     uploadTask,   // ✅ pass task
     dispatch

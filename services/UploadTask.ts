@@ -5,6 +5,7 @@ import { Dispatch } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { rename, setRenamedArray } from "@/lib/redux/slice/renameArraySlice";
 import { v4 as uuidv4 } from 'uuid';
+import { api } from "@/lib/api";
 
 export default class UploadTask extends EventTarget {
 
@@ -13,7 +14,6 @@ export default class UploadTask extends EventTarget {
     private baseUrl: string;
     private file: File;
     private fileName: string;
-    private userID: string;
     private parentID: string | null;
 
     /* -------------------- File Info -------------------- */
@@ -58,7 +58,6 @@ export default class UploadTask extends EventTarget {
         baseUrl: string,
         file: File,
         fileName: string,
-        userID: string,
         parentID: string | null,
         tempFileID: string,
         dispatch: Dispatch<UnknownAction>
@@ -68,7 +67,6 @@ export default class UploadTask extends EventTarget {
         this.baseUrl = baseUrl;
         this.file = file;
         this.fileName = fileName.trim();
-        this.userID = userID;
         this.parentID = parentID;
         this.fileSize = file.size;
         this.index = index;
@@ -140,11 +138,10 @@ export default class UploadTask extends EventTarget {
 
         try {
 
-            const res = await axios.post(
+            const res = await api.post(
                 `${this.baseUrl}/user/uploadfile`,
                 {
                     fileName: this.fileName,
-                    userID: this.userID,
                     fileSize: this.fileSize,
                     totalParts: this.totalParts,
                     chunkSize: this.chunkSize,
@@ -292,11 +289,10 @@ export default class UploadTask extends EventTarget {
 
     private async saveChunkMetadata(partInfo: { PartNumber: number; ETag: string }) {
 
-        await axios.post(
-            `${this.baseUrl}/user/file/uploadsession/uploadparts`,
+        await api.post(
+            `/user/file/uploadsession/uploadparts`,
             {
                 uploadPartInfo: partInfo,
-                userID: this.userID,
                 fileName: this.fileName,
                 uploadId: this.metadata.uploadId,
                 fileID: this.fileID,
@@ -349,8 +345,8 @@ export default class UploadTask extends EventTarget {
 
     private async completeMultipartUpload() {
 
-        const res = await axios.post(
-            `${this.baseUrl}/user/file/upload/complete`,
+        const res = await api.post(
+            `/user/file/upload/complete`,
             {
                 uploadId: this.metadata.uploadId,
                 parts: this.uploadParts.sort((a, b) => a.PartNumber - b.PartNumber),
@@ -379,8 +375,8 @@ export default class UploadTask extends EventTarget {
 
         try {
 
-            await axios.put(
-                `${this.baseUrl}/user/file/${this.fileID}`,
+            await api.put(
+                `/user/file/${this.fileID}`,
                 {
                     storagePath: this.metadata.storagePath,
                     uploadId: this.metadata.uploadId

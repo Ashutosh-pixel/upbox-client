@@ -4,11 +4,10 @@ import { Dispatch } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { rename, setRenamedArray } from "@/lib/redux/slice/renameArraySlice";
 import { v4 as uuidv4 } from 'uuid';
+import { api } from "@/lib/api";
 
 export async function uploadDuplicateCheck(
-    baseUrl: string,
     file: File,
-    userID: string,
     parentID: string | null,
     task: any, // ✅ NEW: pass task
     dispatch: Dispatch<UnknownAction>
@@ -16,7 +15,7 @@ export async function uploadDuplicateCheck(
     try {
         const files = [{ filename: file.name, parentID, type: file.type }];
 
-        const res = await axios.post(`${baseUrl}/user/file/checkduplicatefiles`, { userID, files });
+        const res = await api.post(`/user/file/checkduplicatefiles`, { files });
 
         const duplicateFiles = res.data.duplicate;
 

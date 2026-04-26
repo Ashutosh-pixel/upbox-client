@@ -12,7 +12,6 @@ const Rename = ({ fileID }: renameProps) => {
     const userID = "681cbca24c31bfa9b698a961";
     const controller = new AbortController();
 
-    const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     return <div>
         <input type="text"
@@ -32,7 +31,7 @@ const Rename = ({ fileID }: renameProps) => {
                 setErrorMessage("Name is required")
                 return;
             }
-            fileRename(API_BASE_URL, newName, false, userID, fileID, setNewName, setIsLoading, setErrorMessage, controller);
+            fileRename(newName, false, userID, fileID, setNewName, setIsLoading, setErrorMessage, controller);
         }}>Rename</button>
         {/* <button disabled={isLoading} onClick={() => fileRename(newName, true, setNewName, setIsLoading)}>Auto</button> */}
         <button disabled={isLoading} onClick={() => cancelRename(setNewName, setIsLoading, setErrorMessage, controller)}>Cancel</button>

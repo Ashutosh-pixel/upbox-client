@@ -1,13 +1,13 @@
-import axios from "axios";
+import { api } from "@/lib/api";
 import { Dispatch, SetStateAction } from "react";
 
 
-export async function fileRename(baseURL: string, newName: string, auto: boolean, userID: string, fileID: string, setNewName: Dispatch<SetStateAction<string>>, setIsLoading: Dispatch<SetStateAction<boolean>>, setErrorMessage: Dispatch<SetStateAction<string>>, controller: AbortController) {
+export async function fileRename(newName: string, auto: boolean, userID: string, fileID: string, setNewName: Dispatch<SetStateAction<string>>, setIsLoading: Dispatch<SetStateAction<boolean>>, setErrorMessage: Dispatch<SetStateAction<string>>, controller: AbortController) {
     setIsLoading(true);
     setErrorMessage("");
     try {
         /* api call */
-        await axios.patch(`${baseURL}/user/file/fileRename`, { fileName: newName, autoRename: auto, userID: userID, fileID: fileID }, { signal: controller.signal })
+        await api.patch(`/user/file/fileRename`, { fileName: newName, autoRename: auto, userID: userID, fileID: fileID }, { signal: controller.signal })
         setNewName("");
     } catch (error: any) {
         console.log("file rename failed", error)

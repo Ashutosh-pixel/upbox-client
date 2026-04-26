@@ -1,13 +1,14 @@
+import { api } from "@/lib/api";
 import { Setter } from "@/types/global";
 import { fileMetaData } from "@/types/response";
 import axios from "axios";
 
-export async function fetchFiles(baseUrl: string, parentID: string | null, userID: string, setFiles: Setter<fileMetaData[]>, setFileLoading: Setter<boolean>, setCursor: Setter<string | null>, cursor: string | null, limit: number) {
+export async function fetchFiles(parentID: string | null, setFiles: Setter<fileMetaData[]>, setFileLoading: Setter<boolean>, setCursor: Setter<string | null>, cursor: string | null, limit: number) {
   try {
-    const url = `${baseUrl}/user/files?parentID=${parentID}&userID=${userID}&cursor=${cursor}&limit=${limit}`;
+    const url = `/user/files?parentID=${parentID}&cursor=${cursor}&limit=${limit}`;
     console.log("url", url, "cursor", cursor);
 
-    const response = await axios.get(url);
+    const response = await api.get(url);
     setFiles((prev) => [...prev, ...response.data.output]);
     setCursor(response.data.nextCoursor);
   } catch (error) {
