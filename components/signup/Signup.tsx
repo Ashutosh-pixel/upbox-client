@@ -1,26 +1,24 @@
 "use client"
-
-import { handleLogin } from "@/functions/login/login";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { handleSignup } from "@/functions/signup/signup";
 
-export const Login = () => {
+const Signup = () => {
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [name, setName] = useState<string>("");
 
     const router = useRouter();
 
     const { login, loading, isAuthenticated } = useAuth();
-
 
     useEffect(() => {
         if (!loading && isAuthenticated) {
             router.replace('/drive/image');
             return;
         }
-
     }, [loading, isAuthenticated])
 
 
@@ -28,7 +26,7 @@ export const Login = () => {
         <form action="POST" onSubmit={async (e) => {
             e.preventDefault();
 
-            const output = await handleLogin(email, password);
+            const output = await handleSignup(email, password, name);
 
             if (output) {
                 login(output);
@@ -46,6 +44,15 @@ export const Login = () => {
             </input>
 
             <input
+                type="text"
+                id="name"
+                required
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}>
+            </input>
+
+            <input
                 type="password"
                 id="password"
                 required
@@ -59,4 +66,4 @@ export const Login = () => {
     )
 }
 
-export default Login
+export default Signup;

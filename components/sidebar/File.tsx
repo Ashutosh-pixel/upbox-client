@@ -43,6 +43,10 @@ const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameR
   }, [fileRenameResponse, parentID]);
 
   useEffect(() => {
+    console.log("fileResponse", fileResponse);
+  }, [fileResponse])
+
+  useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         if (cursor !== null) fetchFiles(parentID, setFiles, setFileLoading, setCursor, cursor, limit);

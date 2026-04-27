@@ -3,7 +3,7 @@ import FileUpload from '@/components/fileupload/FileUpload';
 import FolderContainer from '@/components/folder/FolderContainer';
 import FolderCreate from '@/components/folder/FolderCreate';
 import FolderUpload from '@/components/folder/FolderUpload';
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
@@ -13,14 +13,19 @@ import { pasteFile } from '@/functions/file/pasteFile';
 import { uploadManager } from '@/services/UploadManager';
 import ProgressBar from '@/components/progressBar/ProgressBar';
 import { getAccessToken } from '@/lib/token';
+import { useAuth } from '@/components/context/AuthContext';
 
 const Page = () => {
     const [uploading, setUploading] = useState<boolean>(false);
+
+    const router = useRouter();
 
     // files and folders creates and uploads
     const [fileResponse, setFileResponse] = useState<fileMetaData[]>([]);
     const [folderResponse, setFolderResponse] = useState<folder[]>([]);
     const [fileRenameResponse, setFileRenameResponse] = useState<renameResponse[]>([]);
+
+    const { isAuthenticated, loading } = useAuth();
 
 
     const params = useParams();
@@ -33,10 +38,20 @@ const Page = () => {
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
+        if (!loading && !isAuthenticated) {
+            router.replace('/login');
+            return;
+        }
+
+        if (loading || !isAuthenticated) {
+            return;
+        }
+
         const eventsource = new EventSource(`${API_BASE_URL}/connection?token=${getAccessToken()}`);
 
         eventsource.addEventListener('fileUploaded', (event) => {
             const response = JSON.parse(event.data);
+            console.log("FILECOPY", event.data);
             setFileResponse(response);
         })
 
@@ -53,19 +68,41 @@ const Page = () => {
         eventsource.addEventListener('fileRenamed', (event) => {
             const response = JSON.parse(event.data);
             setFileRenameResponse(response);
+            console.log("RENAMED", event.data);
         })
 
         return () => eventsource.close();
 
-    }, [])
+    }, [loading, isAuthenticated])
 
-    useEffect(() => {
-        const hashmap = uploadManager.queue.active;
-        console.log('uploadmanager', uploadManager)
-        for (const [key, value] of hashmap) {
-            console.log(key, value);
-        }
-    }, [])
+    // useEffect(() => {
+    //     const eventsource = new EventSource(`${API_BASE_URL}/connection?token=${getAccessToken()}`);
+
+    //     eventsource.addEventListener('fileUploaded', (event) => {
+    //         const response = JSON.parse(event.data);
+    //         setFileResponse(response);
+    //     })
+
+    //     eventsource.addEventListener('folderCreated', (event) => {
+    //         const response = JSON.parse(event.data);
+    //         setFolderResponse(response);
+    //     })
+
+    //     eventsource.addEventListener('folderUploaded', (event) => {
+    //         const response = JSON.parse(event.data);
+    //         setFolderResponse(response);
+    //     })
+
+    //     eventsource.addEventListener('fileRenamed', (event) => {
+    //         const response = JSON.parse(event.data);
+    //         setFileRenameResponse(response);
+    //     })
+
+    //     return () => eventsource.close();
+
+    // }, [])
+
+    // if (loading) return <p>Loading....</p>
 
     return (
         <div>

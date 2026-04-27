@@ -12,11 +12,11 @@ export async function handleLogin(email: string, password: string) {
 
         if (output.data.accessToken) {
             console.log("true");
-            return true;
+            return output.data.accessToken;
         }
 
     } catch (error) {
         console.log("error in login", error)
-        false;
+        return "";
     }
 }
