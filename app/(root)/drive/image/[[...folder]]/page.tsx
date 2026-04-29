@@ -24,6 +24,7 @@ const Page = () => {
     const [fileResponse, setFileResponse] = useState<fileMetaData[]>([]);
     const [folderResponse, setFolderResponse] = useState<folder[]>([]);
     const [fileRenameResponse, setFileRenameResponse] = useState<renameResponse[]>([]);
+    const [spaceExceed, setSpaceExceed] = useState<boolean>(false);
 
     const { isAuthenticated, loading } = useAuth();
 
@@ -51,7 +52,6 @@ const Page = () => {
 
         eventsource.addEventListener('fileUploaded', (event) => {
             const response = JSON.parse(event.data);
-            console.log("FILECOPY", event.data);
             setFileResponse(response);
         })
 
@@ -68,7 +68,6 @@ const Page = () => {
         eventsource.addEventListener('fileRenamed', (event) => {
             const response = JSON.parse(event.data);
             setFileRenameResponse(response);
-            console.log("RENAMED", event.data);
         })
 
         return () => eventsource.close();
@@ -106,15 +105,17 @@ const Page = () => {
 
     return (
         <div>
+
+            {spaceExceed && "⚠️ Storage full."}
             <FolderCreate parentID={parentId} />
 
             {/* Button */}
-            <FileUpload parentID={parentId} />
+            <FileUpload parentID={parentId} setSpaceExceed={setSpaceExceed} />
 
-            <div><button className="cursor-pointer" onClick={() => pasteFile(clipboard, uploading, parentId, setUploading)}>Paste</button></div>
+            <div><button className="cursor-pointer" onClick={() => pasteFile(clipboard, uploading, parentId, setUploading, setSpaceExceed)}>Paste</button></div>
 
             {/* Button */}
-            <FolderUpload parentID={parentId} />
+            <FolderUpload parentID={parentId} setSpaceExceed={setSpaceExceed} />
 
             <FolderContainer key={parentId} parentID={parentId} folderResponse={folderResponse} />
             {/* <Image key={`img-${parentId}`} userID={userID} parentID={parentId} /> */}

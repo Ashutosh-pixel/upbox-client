@@ -2,7 +2,7 @@ import { api } from "@/lib/api";
 import { Setter } from "@/types/global";
 import axios from "axios";
 
-export async function pasteFile(clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>) {
+export async function pasteFile(clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>, setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>) {
   if (!clipboard || uploading) return;
 
   try {
@@ -39,6 +39,12 @@ export async function pasteFile(clipboard: any, uploading: boolean, parentId: st
       if (error.response?.data?.errorCode === "DUPLICATE_FILE") {
         console.log('duplicate');
         alert("File Already Exists in the Folder")
+      }
+    }
+    else if (error.response?.status === 500) {
+      if (error.response?.data?.errorCode === "STORAGE_LIMIT_EXCEEDED") {
+        console.log('quota exceed');
+        setSpaceExceed(true);
       }
     }
   } finally {

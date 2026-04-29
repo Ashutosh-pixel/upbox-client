@@ -8,9 +8,10 @@ import FileDuplicateWindowPop from "../duplicate/FileDuplicateWindowPop";
 
 type SelectedFolderProps = {
     parentID: string | null,
+    setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID }) => {
+const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID, setSpaceExceed }) => {
 
     const [selectedFiles, setSelectedFiles] = useState<selectedFiles[]>([]);
     const [selectedFolders, setSelectedFolders] = useState<selectedFolders[]>([]);
@@ -32,7 +33,7 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID }) => {
 
     return <div>
         <input type="file" webkitdirectory="true" onChange={() => processFileUpload(event, parentID, setSelectedFiles, setSelectedFolders)} ref={fileInputRef} />
-        <button onClick={() => handleUploadFolders(API_BASE_URL, fileInputRef, parentID, selectedFiles, selectedFolders, setUploadId, setFileName, setUploading, setDuplicateFilesResponse, setFolderMap, dispatch)}>Upload Folder</button>
+        <button onClick={() => handleUploadFolders(API_BASE_URL, fileInputRef, parentID, selectedFiles, selectedFolders, setSpaceExceed, dispatch)}>Upload Folder</button>
 
         {/* duplicate popup window */}
         {renameArray && renameArray.length && <FileDuplicateWindowPop renameArray={renameArray} />}

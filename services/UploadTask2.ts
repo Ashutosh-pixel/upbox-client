@@ -50,6 +50,7 @@ export default class UploadTask2 extends EventTarget {
     /* -------------------- UI reference -------------------- */
 
     private tempFileID: string;
+    private setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>;
 
     /* -------------------- DB SYNC STATE -------------------- */
 
@@ -70,6 +71,7 @@ export default class UploadTask2 extends EventTarget {
         pathNames: string[],
         storagePath: string,
         tempFileID: string,
+        setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>,
         dispatch: Dispatch<UnknownAction>
     ) {
         super();
@@ -92,6 +94,7 @@ export default class UploadTask2 extends EventTarget {
         this.totalParts = totalParts;
         this.chunks = chunks;
         this.dispatch = dispatch;
+        this.setSpaceExceed = setSpaceExceed;
     }
 
     /* ============================================================
@@ -142,6 +145,12 @@ export default class UploadTask2 extends EventTarget {
                         type: this.file.type
                     }]
                     this.dispatch(setRenamedArray(duplicateFiles));
+                }
+            }
+            else if (error.response?.status === 500) {
+                if (error.response?.data?.errorCode === "STORAGE_LIMIT_EXCEEDED") {
+                    console.log('quota exceed');
+                    this.setSpaceExceed(true);
                 }
             }
         }
@@ -357,7 +366,8 @@ export default class UploadTask2 extends EventTarget {
                 parts: this.uploadParts.sort((a, b) => a.PartNumber - b.PartNumber),
                 storagePath: this.metadata.storagePath,
                 folderID: this.metadata.folderID,
-                fileID: this.fileID
+                fileID: this.fileID,
+                fileSize: this.fileSize
             },
             { signal: this.controller.signal }
         );
@@ -385,7 +395,8 @@ export default class UploadTask2 extends EventTarget {
                 `/user/file/${this.fileID}`,
                 {
                     storagePath: this.metadata.storagePath,
-                    uploadId: this.metadata.uploadId
+                    uploadId: this.metadata.uploadId,
+                    fileSize: this.fileSize
                 }
             );
 

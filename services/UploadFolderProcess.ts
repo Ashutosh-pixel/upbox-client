@@ -20,9 +20,10 @@ export class UploadFolderProcess {
     private selectedFiles: selectedFiles[] = [];
     private selectedFolders: selectedFolders[] = [];
     private dispatch: Dispatch<UnknownAction>;
+    private setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>;
 
 
-    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[], dispatch: Dispatch<UnknownAction>) {
+    constructor(baseUrl: string, fileInputRef: React.RefObject<HTMLInputElement | null>, parentID: string | null, selectedFiles: selectedFiles[], selectedFolders: selectedFolders[], setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>, dispatch: Dispatch<UnknownAction>) {
         if (fileInputRef.current?.value) {
             fileInputRef.current.value = "";
         }
@@ -32,6 +33,7 @@ export class UploadFolderProcess {
         this.selectedFiles = selectedFiles;
         this.selectedFolders = selectedFolders;
         this.dispatch = dispatch;
+        this.setSpaceExceed = setSpaceExceed;
 
 
         this.folderCreateOnBackend();
@@ -109,6 +111,7 @@ export class UploadFolderProcess {
                 pathNames,
                 storagePath,
                 tempFileID,
+                this.setSpaceExceed,
                 this.dispatch
             );
 
