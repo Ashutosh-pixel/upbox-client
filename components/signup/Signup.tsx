@@ -3,6 +3,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { handleSignup } from "@/functions/signup/signup";
+import { reduxUserInfo, setUser } from "@/lib/redux/slice/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/redux/store";
 
 const Signup = () => {
 
@@ -12,11 +15,14 @@ const Signup = () => {
 
     const router = useRouter();
 
+    const dispatch = useDispatch();
+
     const { login, loading, isAuthenticated } = useAuth();
 
     useEffect(() => {
         if (!loading && isAuthenticated) {
-            router.replace('/drive/image');
+            dispatch(setUser({ email: email.trim(), name: name.trim() }));
+            router.replace('/drive');
             return;
         }
     }, [loading, isAuthenticated])
@@ -30,7 +36,9 @@ const Signup = () => {
 
             if (output) {
                 login(output);
-                router.push("/drive/image");
+                dispatch(setUser({ email: email.trim(), name: name.trim() }));
+
+                router.push("/drive");
             }
 
         }}>

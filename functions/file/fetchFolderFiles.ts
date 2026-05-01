@@ -9,12 +9,13 @@ export async function fetchFiles(
   setFileLoading: Setter<boolean>,
   setCursor: Setter<string | null>,
   cursor: string | null,
-  limit: number
+  limit: number,
+  fileType: string
 ) {
   try {
     // Don't send cursor if it's null
     const parentIDParam = parentID === null ? 'null' : parentID;
-    let url = `/user/files?parentID=${parentIDParam}&limit=${limit}`;
+    let url = `/user/files?parentID=${parentIDParam}&limit=${limit}&type=${fileType}`;
 
     // Only add cursor parameter if it exists and is not null
     if (cursor) {

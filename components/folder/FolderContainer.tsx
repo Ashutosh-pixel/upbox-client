@@ -10,10 +10,11 @@ import { Folder, FolderOpen, MoreVertical, Copy, Calendar, Clock, HardDrive } fr
 
 type FolderProps = {
     parentID: string | null,
-    folderResponse: folder[]
+    folderResponse: folder[],
+    fileType: string;
 }
 
-const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse }) => {
+const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse, fileType }) => {
     const [folders, setFolders] = useState<folder[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
@@ -46,10 +47,31 @@ const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse }) =>
     };
 
     const handleFolderClick = (folderId: string) => {
-        if (!parentID) {
-            router.push(`image/${folderId}`);
+        // Build the correct path based on file type and current parent
+        let basePath = '';
+
+        switch (fileType) {
+            case 'image':
+                basePath = '/drive/image';
+                break;
+            case 'video':
+                basePath = '/drive/video';
+                break;
+            case 'document':
+                basePath = '/drive/document';
+                break;
+            default:
+                basePath = '/drive';
+        }
+
+        // If we have a parentID (we're inside a folder), append to current path
+        if (parentID) {
+            // Get current path segments
+            // const currentPath = window.location.pathname;
+            router.push(`${basePath}/${folderId}`);
         } else {
-            router.push(`${folderId}`);
+            // Navigate to new folder in the base type route
+            router.push(`${basePath}/${folderId}`);
         }
     };
 

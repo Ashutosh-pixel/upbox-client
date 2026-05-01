@@ -4,6 +4,8 @@ import { handleLogin } from "@/functions/login/login";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/redux/slice/userSlice";
 
 export const Login = () => {
 
@@ -11,13 +13,14 @@ export const Login = () => {
     const [password, setPassword] = useState<string>("");
 
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const { login, loading, isAuthenticated } = useAuth();
 
 
     useEffect(() => {
         if (!loading && isAuthenticated) {
-            router.replace('/drive/image');
+            router.replace('/drive/');
             return;
         }
 
@@ -30,9 +33,10 @@ export const Login = () => {
 
             const output = await handleLogin(email, password);
 
-            if (output) {
-                login(output);
-                router.push("/drive/image");
+            if (output && output.accessToken) {
+                login(output.accessToken);
+                dispatch(setUser({ email: output.email, name: output.name }))
+                router.push("/drive/");
             }
 
         }}>

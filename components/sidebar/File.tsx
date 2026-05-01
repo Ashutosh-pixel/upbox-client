@@ -10,9 +10,10 @@ interface fileProp {
   parentID: string | null;
   fileResponse: fileMetaData[];
   fileRenameResponse: renameResponse[]
+  fileType: string;
 }
 
-const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameResponse }) => {
+const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameResponse, fileType }) => {
   const [files, setFiles] = useState<fileMetaData[]>([]);
   const [fileLoading, setFileLoading] = useState<boolean>(true);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
@@ -33,7 +34,7 @@ const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameR
       try {
         // Fix: Don't send "null" as string, send actual null or don't include the param
         const parentIDParam = parentID === null ? 'null' : parentID;
-        const url = `/user/files?parentID=${parentIDParam}&limit=${limit}`;
+        const url = `/user/files?parentID=${parentIDParam}&limit=${limit}&type=${fileType}`;
         // Remove cursor from initial request - don't send "null" as string
         const response = await api.get(url);
         setFiles(response.data.output);
@@ -78,7 +79,7 @@ const FileContainer: React.FC<fileProp> = ({ parentID, fileResponse, fileRenameR
   const loadMoreFiles = useCallback(() => {
     // Only load more if cursor exists (not null) and not loading
     if (cursor && !fileLoading && initialFetchDone.current) {
-      fetchFiles(parentID, setFiles, setFileLoading, setCursor, cursor, limit);
+      fetchFiles(parentID, setFiles, setFileLoading, setCursor, cursor, limit, fileType);
     }
   }, [cursor, fileLoading, parentID, limit]);
 

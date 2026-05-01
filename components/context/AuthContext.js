@@ -1,8 +1,10 @@
 "use client"
 
 import { api } from "@/lib/api";
+import { setUser } from "@/lib/redux/slice/userSlice";
 import { clearAccessToken, setAccessToken } from "@/lib/token";
 import { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 const AuthContext = createContext();
 
@@ -10,12 +12,14 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
         const initAuth = async () => {
             try {
                 const res = await api.post("/auth/refresh");
-
+                dispatch(setUser({ email: res.data.email, name: res.data.name }));
                 setAccessToken(res.data.accessToken);
                 setIsAuthenticated(true);
             } catch (error) {

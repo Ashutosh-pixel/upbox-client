@@ -10,9 +10,9 @@ export async function handleLogin(email: string, password: string) {
 
         setAccessToken(output.data.accessToken);
 
-        if (output.data.accessToken) {
+        if (output && output.data.accessToken) {
             console.log("true");
-            return output.data.accessToken;
+            return { accessToken: output.data.accessToken, name: output.data.name, email: output.data.email };
         }
 
     } catch (error) {
