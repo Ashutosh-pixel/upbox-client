@@ -28,10 +28,12 @@ const fileUploadProgressSlice = createSlice({
         },
 
         cleanUploadProgress: (state, action: PayloadAction<uploadingProgress>) => {
-
-            state = state.filter(progress => progress.tempFileID !== action.payload.tempFileID);
-
-        }
+            // Remove specific upload (only for completed/aborted)
+            const index = state.findIndex(p => p.tempFileID === action.payload.tempFileID);
+            if (index !== -1) {
+                state.splice(index, 1);
+            }
+        },
     }
 })
 

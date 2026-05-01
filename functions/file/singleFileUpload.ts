@@ -9,7 +9,14 @@ import { uploadDuplicateCheck } from "@/services/UploadDuplicateCheck";
 import { Dispatch } from "react";
 import { UnknownAction } from "@reduxjs/toolkit";
 
-export async function upload(baseUrl: string, file: File | null, file_Name: string, parentID: string | null, setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>, dispatch: Dispatch<UnknownAction>) {
+export async function upload(
+  baseUrl: string,
+  file: File | null,
+  file_Name: string,
+  parentID: string | null,
+  setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>,
+  dispatch: Dispatch<UnknownAction>
+) {
   if (!file) return;
 
 
