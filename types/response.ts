@@ -43,7 +43,8 @@ export interface fileMetaData {
     uploadTime: string,
     updatedAt: string,
     parentID: string
-    sourcePath?: string
+    sourcePath?: string,
+    pathNames: string[]
 }
 
 export interface renameResponse {

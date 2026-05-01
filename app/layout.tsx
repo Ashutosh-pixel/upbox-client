@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReduxProvider } from "@/lib/redux/provider";
 import React from "react";
 import { AuthProvider } from "@/components/context/AuthContext";
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <ReduxProvider>
           <AuthProvider>
             {children}
+            <Toaster position="bottom-right" reverseOrder={false} />
           </AuthProvider>
         </ReduxProvider>
       </body>
