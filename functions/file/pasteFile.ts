@@ -23,7 +23,7 @@ export async function pasteFile(clipboard: any, uploading: boolean, parentId: st
         `/user/pastefile`,
         { fileID: id, parentID, userID },
       );
-      alert(response.data.message || response.data.error);
+      // alert(response.data.message || response.data.error);
     } else if (clipboard.kind === "folder") {
       const id = clipboard.id;
       const parentID = parentId;
@@ -31,7 +31,7 @@ export async function pasteFile(clipboard: any, uploading: boolean, parentId: st
         `/folder/pastefolder`,
         { id, name, parentID, userID },
       );
-      alert(response.data.message || response.data.error);
+      // alert(response.data.message || response.data.error);
     }
   } catch (error: any) {
     console.log("error while uploading", error);

@@ -12,7 +12,7 @@ export async function handleLogin(email: string, password: string) {
 
         if (output && output.data.accessToken) {
             console.log("true");
-            return { accessToken: output.data.accessToken, name: output.data.name, email: output.data.email };
+            return { accessToken: output.data.accessToken, name: output.data.name, email: output.data.email, totalStorage: output.data.totalStorage, usedStorage: output.data.usedStorage };
         }
 
     } catch (error) {

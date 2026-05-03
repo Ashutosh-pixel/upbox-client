@@ -45,9 +45,9 @@ const Signup = () => {
         try {
             const output = await handleSignup(email, password, name);
 
-            if (output) {
-                login(output);
-                dispatch(setUser({ email: email.trim(), name: name.trim() }));
+            if (output && output.accessToken) {
+                login(output.accessToken);
+                dispatch(setUser({ email: email.trim(), name: name.trim(), totalStorage: output.totalStorage, usedStorage: output.usedStorage }));
                 toast.success('Account created successfully!');
                 router.push("/drive");
             } else {

@@ -368,7 +368,7 @@ export default class UploadTask extends EventTarget {
 
         this.emitEvent("completed", "completed");
 
-        alert(res.data.message || res.data.error);
+        // alert(res.data.message || res.data.error);
     }
 
     /* ============================================================

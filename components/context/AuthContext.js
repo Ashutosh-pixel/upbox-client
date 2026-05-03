@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
         const initAuth = async () => {
             try {
                 const res = await api.post("/auth/refresh");
-                dispatch(setUser({ email: res.data.email, name: res.data.name }));
+                dispatch(setUser({ email: res.data.email, name: res.data.name, totalStorage: res.data.totalStorage, usedStorage: res.data.usedStorage }));
                 setAccessToken(res.data.accessToken);
                 setIsAuthenticated(true);
             } catch (error) {

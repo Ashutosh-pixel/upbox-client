@@ -9,7 +9,7 @@ export async function folderHandler(name: string, parentID: string | null) {
       { name, parentID, folderPath: name },
     );
     console.log("status", output.data.message);
-    alert(output.data.message || output.data.error);
+    // alert(output.data.message || output.data.error);
     return { success: true };
   } catch (error: any) {
     console.log("error is", error);

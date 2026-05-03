@@ -41,7 +41,7 @@ export const Login = () => {
 
             if (output && output.accessToken) {
                 login(output.accessToken);
-                dispatch(setUser({ email: output.email, name: output.name }));
+                dispatch(setUser({ email: output.email, name: output.name, totalStorage: output.totalStorage, usedStorage: output.usedStorage }));
                 toast.success('Welcome back!');
                 router.push("/drive/");
             } else {

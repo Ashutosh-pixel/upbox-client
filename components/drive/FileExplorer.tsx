@@ -15,6 +15,8 @@ import { getAccessToken } from '@/lib/token';
 import { useAuth } from '@/components/context/AuthContext';
 import { Clipboard } from 'lucide-react';
 import FileDuplicateWindowPop from '@/components/duplicate/FileDuplicateWindowPop';
+import DiskProgressBar from '../progressBar/StorageProgressBar';
+import { reduxUserInfo, storage, updateStorage } from '@/lib/redux/slice/userSlice';
 
 type FileExplorerProps = {
     fileType?: 'image' | 'video' | 'document' | 'all'
@@ -36,6 +38,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({ fileType = 'all' }) => {
     const parentId = folderPath.length > 0 ? folderPath[folderPath.length - 1] : null;
     const clipboard: any = useSelector((state: RootState) => state.clipboard);
     const renameArray = useSelector((state: RootState) => state.renameArray);
+    const user: reduxUserInfo = useSelector((state: RootState) => state.user);
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {
@@ -66,6 +69,13 @@ const FileExplorer: React.FC<FileExplorerProps> = ({ fileType = 'all' }) => {
         eventsource.addEventListener('fileRenamed', (event) => {
             const response = JSON.parse(event.data);
             setFileRenameResponse(response);
+        })
+
+        eventsource.addEventListener('updateStorage', (event) => {
+            const updatedstorage: storage = {
+                usedStorage: Number(event.data)
+            }
+            dispatch(updateStorage(updatedstorage));
         })
 
         return () => eventsource.close();
