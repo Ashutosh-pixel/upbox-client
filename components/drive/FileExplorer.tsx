@@ -78,6 +78,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({ fileType = 'all' }) => {
             const updatedstorage: storage = {
                 usedStorage: Number(event.data)
             }
+            console.log("UPDATESTORAGE", event.data, updatedstorage)
             dispatch(updateStorage(updatedstorage));
         })
 
