@@ -52,21 +52,25 @@ const FileExplorer: React.FC<FileExplorerProps> = ({ fileType = 'all' }) => {
 
         eventsource.addEventListener('fileUploaded', (event) => {
             const response = JSON.parse(event.data);
+            console.log("FILEUPLOADED", event.data, response)
             setFileResponse(response);
         })
 
         eventsource.addEventListener('folderCreated', (event) => {
             const response = JSON.parse(event.data);
+            console.log("FOLDERCREATED", event.data, response)
             setFolderResponse(response);
         })
 
         eventsource.addEventListener('folderUploaded', (event) => {
             const response = JSON.parse(event.data);
+            console.log("FOLDERUPLOADED", event.data, response)
             setFolderResponse(response);
         })
 
         eventsource.addEventListener('fileRenamed', (event) => {
             const response = JSON.parse(event.data);
+            console.log("FILERENAMED", event.data, response)
             setFileRenameResponse(response);
         })
 
