@@ -15,8 +15,8 @@ import { getAccessToken } from '@/lib/token';
 import { useAuth } from '@/components/context/AuthContext';
 import { Clipboard } from 'lucide-react';
 import FileDuplicateWindowPop from '@/components/duplicate/FileDuplicateWindowPop';
-import DiskProgressBar from '../progressBar/StorageProgressBar';
 import { reduxUserInfo, storage, updateStorage } from '@/lib/redux/slice/userSlice';
+import { reduxClipboardFileInfo } from '@/lib/redux/slice/clipboardSlice';
 
 type FileExplorerProps = {
     fileType?: 'image' | 'video' | 'document' | 'all'
@@ -36,9 +36,8 @@ const FileExplorer: React.FC<FileExplorerProps> = ({ fileType = 'all' }) => {
     const params = useParams();
     const folderPath = Array.isArray(params.folder) ? params.folder : []
     const parentId = folderPath.length > 0 ? folderPath[folderPath.length - 1] : null;
-    const clipboard: any = useSelector((state: RootState) => state.clipboard);
+    const clipboard: reduxClipboardFileInfo = useSelector((state: RootState) => state.clipboard);
     const renameArray = useSelector((state: RootState) => state.renameArray);
-    const user: reduxUserInfo = useSelector((state: RootState) => state.user);
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
     useEffect(() => {

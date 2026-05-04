@@ -1,10 +1,11 @@
 'use client'
 
+import { reduxUserInfo } from "@/lib/redux/slice/userSlice";
 import { RootState } from "@/lib/redux/store";
 import { useSelector } from "react-redux";
 
 const SideBarProfileBody = () => {
-    const user: any = useSelector((state: RootState) => state.user);
+    const user: reduxUserInfo = useSelector((state: RootState) => state.user);
 
     return (
         <div className="px-4 py-6 border-b border-gray-100">

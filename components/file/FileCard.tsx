@@ -4,7 +4,7 @@ import { dateFormat } from '@/lib/utils'
 import { fileMetaData } from '@/types/response'
 import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from "react-redux";
-import { Copy, Calendar, HardDrive, File, FileImage, FileVideo, FileText, FileArchive, FileSpreadsheet, Presentation, Eye, Download, PenLine, Share2, Trash2 } from 'lucide-react';
+import { Copy, Calendar, HardDrive, File, FileImage, FileVideo, FileText, FileArchive, FileSpreadsheet, Presentation, Eye, Download, PenLine, Trash2 } from 'lucide-react';
 import DropdownMenu, { MenuAction } from '../menu/DropDownMenu';
 import FileDetailsModal from '../menu/FileDetailsModel';
 import Rename from '../rename/Rename';
@@ -91,7 +91,7 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
     const formatFileName = (filename: string, fileType: string) => {
         const prefix = getFilePrefix(fileType, filename);
         const maxLength = 25;
-        let displayName = filename.length > maxLength
+        const displayName = filename.length > maxLength
             ? filename.substring(0, maxLength) + '...'
             : filename;
         return `${prefix}-${displayName}`;
@@ -302,14 +302,14 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
             id: 'copy',
             label: 'Copy',
             icon: <Copy className="w-4 h-4" />,
-            onClick: async (e) => {
+            onClick: async () => {
                 try {
                     await copyFile(fileMetadata, dispatch);
                     toast.success(`${fileMetadata.filename} copied to clipboard!`, {
                         duration: 2000,
                         position: 'bottom-right',
                     });
-                } catch (error) {
+                } catch {
                     toast.error(`Failed to copy ${fileMetadata.filename}`, {
                         duration: 2000,
                         position: 'bottom-right',
@@ -321,7 +321,7 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
             id: 'download',
             label: 'Download',
             icon: <Download className="w-4 h-4" />,
-            onClick: (e) => {
+            onClick: () => {
                 // Implement download functionality
             }
         },
@@ -339,7 +339,7 @@ const FileCard: React.FC<filemetadataProp> = ({ fileMetadata }) => {
             label: 'Delete',
             icon: <Trash2 className="w-4 h-4" />,
             danger: true,
-            onClick: (e) => {
+            onClick: () => {
                 // Implement delete functionality
             }
         }

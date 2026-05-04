@@ -1,10 +1,9 @@
 'use client'
 import { selectedFiles, selectedFolders } from "@/types/folder";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { processFileUpload } from "@/functions/folder/folderUpload";
 import { handleUploadFolders } from "@/functions/folder/uploadFolders";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
+import { useDispatch } from "react-redux";
 import { FolderUp, X } from 'lucide-react';
 
 type SelectedFolderProps = {
@@ -20,7 +19,6 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID, setSpaceExceed 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
-    const renameArray = useSelector((state: RootState) => state.renameArray);
     const dispatch = useDispatch();
 
     const handleFolderSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {

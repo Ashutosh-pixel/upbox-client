@@ -1,9 +1,9 @@
 // components/FileDetailsModal.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-    X, Folder, File as FileIcon, Users, User, Calendar,
-    Clock, HardDrive, MapPin, Eye, Download, Share2,
-    Activity, Home, ChevronRight
+    X, Folder, File as FileIcon, User,
+
+    Home
 } from 'lucide-react';
 import { fileMetaData } from '@/types/response';
 import { dateFormat } from '@/lib/utils';

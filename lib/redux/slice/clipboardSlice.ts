@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface reduxClipboardFileInfo {
     id: string,
@@ -26,7 +26,7 @@ const clipboardSlice = createSlice({
     name: 'clipboard',
     initialState,
     reducers: {
-        setClipboard: (state,action: PayloadAction<reduxClipboardFileInfo>) => {
+        setClipboard: (state, action: PayloadAction<reduxClipboardFileInfo>) => {
             state.id = action.payload.id;
             state.name = action.payload.name;
             state.parentID = action.payload.parentID;
@@ -37,13 +37,13 @@ const clipboardSlice = createSlice({
             state.originalStoragePath = action.payload.originalStoragePath
         },
 
-        clearClipboard: (state) => {
-            state = initialState;
+        clearClipboard: () => {
+            return initialState;
         }
     }
 })
 
-export const {setClipboard, clearClipboard} = clipboardSlice.actions;
+export const { setClipboard, clearClipboard } = clipboardSlice.actions;
 export default clipboardSlice.reducer;
 
 

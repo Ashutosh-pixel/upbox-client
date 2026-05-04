@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
                 dispatch(setUser({ email: res.data.email, name: res.data.name, totalStorage: res.data.totalStorage, usedStorage: res.data.usedStorage }));
                 setAccessToken(res.data.accessToken);
                 setIsAuthenticated(true);
-            } catch (error) {
+            } catch {
                 clearAccessToken();
                 setIsAuthenticated(false);
             }

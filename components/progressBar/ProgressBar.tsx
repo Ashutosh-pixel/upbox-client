@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { pause } from "@/functions/progressBar/pause";
 import { resume } from "@/functions/progressBar/resume";
 import { cancel } from "@/functions/progressBar/cancel";
-import { Pause, Play, XCircle, CheckCircle, Loader2, File, ChevronUp, ChevronDown } from 'lucide-react';
+import { Pause, Play, XCircle, Loader2, File, ChevronUp, ChevronDown } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { cleanUploadProgress } from "@/lib/redux/slice/fileUploadProgressSlice";
 
@@ -142,8 +142,8 @@ const ProgressBar = () => {
                                 <div className="relative w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
                                     <div
                                         className={`absolute left-0 top-0 h-full transition-all duration-300 rounded-full ${isPaused ? 'bg-yellow-400' :
-                                                isHashing ? 'bg-purple-400' :
-                                                    'bg-blue-500'
+                                            isHashing ? 'bg-purple-400' :
+                                                'bg-blue-500'
                                             }`}
                                         style={{ width: `${percentage}%` }}
                                     />
@@ -179,8 +179,8 @@ const ProgressBar = () => {
                                                 }
                                             }}
                                             className={`flex items-center gap-1 px-2 py-1 text-xs rounded transition-colors ${progress.status === 'uploading'
-                                                    ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                                                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                                ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                                 }`}
                                             disabled={progress.status !== 'uploading'}
                                         >

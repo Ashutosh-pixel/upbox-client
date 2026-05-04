@@ -1,7 +1,6 @@
 import { api } from "@/lib/api";
 import { Setter } from "@/types/global";
 import { folder } from "@/types/response";
-import axios from "axios";
 
 export async function fetchFolders(parentID: string | null, setFolders: Setter<folder[]>, setLoading: Setter<boolean>) {
   try {

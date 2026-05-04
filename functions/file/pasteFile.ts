@@ -1,8 +1,9 @@
 import { api } from "@/lib/api";
+import { reduxClipboardFileInfo } from "@/lib/redux/slice/clipboardSlice";
 import { Setter } from "@/types/global";
 import axios from "axios";
 
-export async function pasteFile(clipboard: any, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>, setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>) {
+export async function pasteFile(clipboard: reduxClipboardFileInfo, uploading: boolean, parentId: string | null, setUploading: Setter<boolean>, setSpaceExceed: React.Dispatch<React.SetStateAction<boolean>>) {
   if (!clipboard || uploading) return;
 
   try {

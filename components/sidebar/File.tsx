@@ -103,7 +103,7 @@ const FileContainer: React.FC<fileProp> = ({
       await fetchFiles(parentID, setFiles, setFileLoading, setCursor, cursor, limit, fileType);
 
       // Update hasMore based on new cursor
-      setHasMore(prevHasMore => {
+      setHasMore(() => {
         // This will be updated after fetchFiles completes
         return true;
       });
@@ -201,7 +201,7 @@ const FileContainer: React.FC<fileProp> = ({
       {/* End of content message */}
       {!hasMore && files.length > 0 && !fileLoading && (
         <div className="text-center py-8 text-gray-500 text-sm">
-          You've reached the end
+          You have reached the end
         </div>
       )}
     </div>

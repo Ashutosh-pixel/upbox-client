@@ -2,7 +2,7 @@
 import { logout } from "@/functions/logout/logout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Folder, Image, Video, FileText, LogOut, Home } from 'lucide-react';
+import { Folder, Image, Video, FileText, LogOut } from 'lucide-react';
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import DiskProgressBar from "../progressBar/StorageProgressBar";

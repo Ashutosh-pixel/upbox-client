@@ -133,7 +133,7 @@ const Navbar = () => {
             ) : (
               debounceQuery && (
                 <div className="p-4 text-center text-sm text-gray-500">
-                  No results found for "{debounceQuery}"
+                  No results found for {debounceQuery}
                 </div>
               )
             )}

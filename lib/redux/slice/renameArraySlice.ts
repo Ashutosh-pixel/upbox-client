@@ -22,7 +22,7 @@ const renameArraySlice = createSlice({
             return state.filter(file => file._id !== action.payload._id);
         },
 
-        clearAllRenameArray: (state) => {
+        clearAllRenameArray: () => {
             return [];
         }
     }

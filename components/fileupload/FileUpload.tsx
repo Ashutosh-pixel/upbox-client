@@ -1,9 +1,8 @@
 'use client'
 import React, { useState, useRef } from "react";
 import { upload } from "@/functions/file/singleFileUpload";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/redux/store";
-import { FileUp, Upload, X } from 'lucide-react';
+import { useDispatch } from "react-redux";
+import { FileUp, X } from 'lucide-react';
 
 type fileUploadProp = {
     parentID: string | null,
@@ -15,7 +14,6 @@ const FileUpload: React.FC<fileUploadProp> = ({ parentID, setSpaceExceed }) => {
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
-    const renameArray = useSelector((state: RootState) => state.renameArray);
     const dispatch = useDispatch();
     const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
     const fileInputRef = useRef<HTMLInputElement>(null);

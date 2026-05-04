@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MoreVertical, Copy, Download, PenLine, Trash2, Share2, Info, Eye } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 
 export interface MenuAction {
     id: string;

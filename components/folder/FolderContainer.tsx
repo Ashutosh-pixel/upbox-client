@@ -5,8 +5,7 @@ import { folder } from '@/types/response';
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/lib/redux/store";
 import { fetchFolders } from '@/functions/folder/fetchFolders';
-import { copyFolder } from './copyFolder';
-import { Folder, FolderOpen, MoreVertical, Copy, Calendar, Clock, HardDrive } from 'lucide-react';
+import { Folder, FolderOpen, Calendar, Clock } from 'lucide-react';
 
 type FolderProps = {
     parentID: string | null,
@@ -75,11 +74,11 @@ const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse, file
         }
     };
 
-    const handleCopy = async (e: React.MouseEvent, folder: folder) => {
-        e.stopPropagation();
-        await copyFolder(folder, dispatch);
-    };
-
+    /*     const handleCopy = async (e: React.MouseEvent, folder: folder) => {
+            e.stopPropagation();
+            await copyFolder(folder, dispatch);
+        };
+     */
     if (loading) {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 p-6">
