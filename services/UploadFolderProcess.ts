@@ -1,6 +1,4 @@
 import { selectedFiles, selectedFolders } from "@/types/folder";
-import { Setter } from "@/types/global";
-import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { uploadManager } from "./UploadManager";
 import UploadTask2 from "./UploadTask2";
