@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { folder } from '@/types/response';
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/lib/redux/store";
 import { fetchFolders } from '@/functions/folder/fetchFolders';
 import { Folder, FolderOpen, Calendar, Clock } from 'lucide-react';
 
@@ -18,7 +16,6 @@ const FolderContainer: React.FC<FolderProps> = ({ parentID, folderResponse, file
     const [loading, setLoading] = useState<boolean>(false);
     const [hoveredFolder, setHoveredFolder] = useState<string | null>(null);
     const router = useRouter();
-    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         fetchFolders(parentID, setFolders, setLoading);

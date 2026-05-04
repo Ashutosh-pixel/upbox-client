@@ -15,7 +15,7 @@ import { getAccessToken } from '@/lib/token';
 import { useAuth } from '@/components/context/AuthContext';
 import { Clipboard } from 'lucide-react';
 import FileDuplicateWindowPop from '@/components/duplicate/FileDuplicateWindowPop';
-import { reduxUserInfo, storage, updateStorage } from '@/lib/redux/slice/userSlice';
+import { storage, updateStorage } from '@/lib/redux/slice/userSlice';
 import { reduxClipboardFileInfo } from '@/lib/redux/slice/clipboardSlice';
 
 type FileExplorerProps = {

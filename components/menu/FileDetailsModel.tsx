@@ -18,9 +18,7 @@ interface FileDetailsModalProps {
 const FileDetailsModal: React.FC<FileDetailsModalProps> = ({
     isOpen,
     onClose,
-    fileMetadata,
-    fileURL
-}) => {
+    fileMetadata }) => {
 
     // Close on escape key
     useEffect(() => {

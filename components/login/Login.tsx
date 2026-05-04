@@ -133,7 +133,7 @@ export const Login = () => {
 
             {/* Footer */}
             <p className="text-center text-sm text-gray-500 mt-6">
-                Don't have an account?
+                {"Don't have an account?"}
                 <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
                     Create account
                 </Link>
