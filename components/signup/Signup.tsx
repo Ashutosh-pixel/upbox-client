@@ -1,13 +1,13 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { handleSignup } from "@/functions/signup/signup";
 import { setUser } from "@/lib/redux/slice/userSlice";
 import { useDispatch } from "react-redux";
 import { Mail, Lock, Eye, EyeOff, User, UserPlus } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
     const [email, setEmail] = useState<string>("");

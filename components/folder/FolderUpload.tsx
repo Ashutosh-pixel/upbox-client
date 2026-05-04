@@ -45,7 +45,8 @@ const FolderUpload: React.FC<SelectedFolderProps> = ({ parentID, setSpaceExceed 
         <div>
             <input
                 type="file"
-                // webkitdirectory="true"  file upload responsible
+                // @ts-expect-error webkitdirectory is a valid non-standard input attribute
+                webkitdirectory="true"
                 ref={fileInputRef}
                 className="hidden"
                 onChange={handleFolderSelect}

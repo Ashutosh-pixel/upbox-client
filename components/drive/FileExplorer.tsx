@@ -12,11 +12,11 @@ import { fileMetaData, folder, renameResponse } from "@/types/response";
 import { pasteFile } from '@/functions/file/pasteFile';
 import ProgressBar from '@/components/progressBar/ProgressBar';
 import { getAccessToken } from '@/lib/token';
-import { useAuth } from '@/components/context/AuthContext';
 import { Clipboard } from 'lucide-react';
 import FileDuplicateWindowPop from '@/components/duplicate/FileDuplicateWindowPop';
 import { storage, updateStorage } from '@/lib/redux/slice/userSlice';
 import { reduxClipboardFileInfo } from '@/lib/redux/slice/clipboardSlice';
+import { useAuth } from '../context/AuthContext';
 
 type FileExplorerProps = {
     fileType?: 'image' | 'video' | 'document' | 'all'

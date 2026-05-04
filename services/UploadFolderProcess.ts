@@ -52,7 +52,10 @@ export class UploadFolderProcess {
 
     private foldersProcess() {
         for (let i = 0; i < this.selectedFiles.length; i++) {
-            const folderDoc = this.folderMap[this.selectedFiles[i].parent];
+            const parentKey = this.selectedFiles[i].parent ?? this.parentID;
+            if (!parentKey) continue;
+
+            const folderDoc = this.folderMap[parentKey];
             const filename = this.selectedFiles[i].name;
             const parentID = folderDoc._id;
 
@@ -90,7 +93,10 @@ export class UploadFolderProcess {
         for (let i = 0; i < this.selectedFiles.length; i++) {
 
             const fileMeta = this.files[i];
-            const folderDoc = this.folderMap[this.selectedFiles[i].parent];
+            const parentKey = this.selectedFiles[i].parent ?? this.parentID;
+            if (!parentKey) continue;
+
+            const folderDoc = this.folderMap[parentKey];
 
             const storagePath = `${folderDoc.storagePath}${uuidv4()}-${fileMeta.filename}`;
             const pathIds = [...folderDoc.pathIds, folderDoc._id];

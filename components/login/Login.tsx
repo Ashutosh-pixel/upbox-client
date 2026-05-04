@@ -4,11 +4,11 @@ import { handleLogin } from "@/functions/login/login";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/lib/redux/slice/userSlice";
 import { Mail, Lock, LogIn, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 export const Login = () => {
     const [email, setEmail] = useState<string>("");
