@@ -7,6 +7,8 @@
 
 Frontend client for UpBox — a production-grade Google Drive clone with chunk-based uploads, queue management, and real-time updates.
 
+🔗 Live Project: https://www.upboxdrive.online/
+
 ## 🚀 Demo Features
 
 - 📁 Nested folder navigation
