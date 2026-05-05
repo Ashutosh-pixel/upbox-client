@@ -72,6 +72,29 @@ export const Login = () => {
                 </p>
             </div>
 
+            {/* Guest Login Button */}
+            <button
+                onClick={() => {
+                    // Handle guest login here
+                    console.log("Guest login clicked");
+                    setEmail("demo@example.com");
+                    setPassword("123456");
+                }}
+                className="w-full mb-3 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition-all duration-200 text-sm"
+            >
+                Continue as Guest
+            </button>
+
+            {/* Divider */}
+            <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-200"></div>
+                </div>
+                <div className="relative flex justify-center text-xs">
+                    <span className="px-2 bg-white text-gray-400">or</span>
+                </div>
+            </div>
+
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
